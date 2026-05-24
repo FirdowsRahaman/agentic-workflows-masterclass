@@ -1,4 +1,4 @@
-# Production-Grade Agentic Workflows & Multi-Agent Orchestration ⚙️
+# Production-Grade Agentic Workflows & Multi-Agent Orchestration 
 
 <div align="center">
   <p><em>The engineering guide to stateful, autonomous, and multi-agent architectures in production.</em></p>
