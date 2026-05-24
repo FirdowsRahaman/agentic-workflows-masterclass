@@ -114,6 +114,7 @@ This masterclass is designed around the "Read, Build, Master" approach.
 - 🧪 [Lab 4: Human Interruption](labs/lab-04-human-interruption/README.md) — Halt critical actions for user review.
 - 🧪 [Lab 5: Dual-Core Memory Engine](labs/lab-05-memory-engine/README.md) — Maintain semantic memory alongside long-term storage.
 - 🧪 [Lab 6: Evals Pipeline](labs/lab-06-evals-pipeline/README.md) — Automate agent grading via LLM judges.
+- 🧪 [Lab 7: Corrective RAG (CRAG) Engine](labs/lab-07-agentic-rag/README.md) — Build document grading, query expansion, and web search fallback in a LangGraph-style pipeline.
 
 ### 🏆 Mastery: Capstone Projects
 *Full-scale projects simulating complex enterprise workloads.*

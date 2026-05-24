@@ -97,4 +97,8 @@ When building Agentic RAG, we utilize three main patterns:
 ---
 
 ## 🏁 What's Next?
-In **[Chapter 3: Cognitive Design Patterns](../03-cognitive-patterns/README.md)**, we will build the core planning mechanisms of agents, focusing on the historical and standard ReAct (Reason + Action) pattern.
+
+Put theory into practice:
+- 🧪 **[Lab 7: Corrective RAG (CRAG) Engine](../../labs/lab-07-agentic-rag/README.md)** — Build document grading, query expansion, and web search fallback in a LangGraph-style pipeline.
+
+After completing the lab, proceed to **[Chapter 3: Cognitive Design Patterns](../03-cognitive-patterns/README.md)**, where we will build the core planning mechanisms of agents using standard ReAct (Reason + Action) loops.
