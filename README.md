@@ -115,6 +115,7 @@ This masterclass is designed around the "Read, Build, Master" approach.
 - 🧪 [Lab 5: Dual-Core Memory Engine](labs/lab-05-memory-engine/README.md) — Maintain semantic memory alongside long-term storage.
 - 🧪 [Lab 6: Evals Pipeline](labs/lab-06-evals-pipeline/README.md) — Automate agent grading via LLM judges.
 - 🧪 [Lab 7: Corrective RAG (CRAG) Engine](labs/lab-07-agentic-rag/README.md) — Build document grading, query expansion, and web search fallback in a LangGraph-style pipeline.
+- 🧪 [Lab 8: Collaborative Agents with Google ADK](labs/lab-08-google-adk/README.md) — Build specialized agents, custom tools, and collaborative workflows using the Google ADK Python SDK.
 
 ### 🏆 Mastery: Capstone Projects
 *Full-scale projects simulating complex enterprise workloads.*
@@ -128,6 +129,7 @@ This masterclass is designed around the "Read, Build, Master" approach.
 
 ## 🤝 Recommended Frameworks
 
+- **[Agent Development Kit (ADK)](https://adk.dev)**: Google's open-source framework for building multi-agent systems and workflows.
 - **[LangGraph](https://github.com/langchain-ai/langgraph)**: Orchestration engine of choice for complex state management.
 - **[GenAI SDK](https://github.com/google/generative-ai-python)**: Official library for Google Gemini models.
 - **[Phoenix](https://github.com/Arize-AI/phoenix)**: AI observability and tracing platform.

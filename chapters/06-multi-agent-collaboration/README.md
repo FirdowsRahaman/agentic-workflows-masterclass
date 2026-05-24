@@ -125,15 +125,67 @@ class TaskHandoff(BaseModel):
 
 ---
 
+## ⚙️ Production Agentic Engineering: Advanced Architectures
+
+Building reliable multi-agent systems in production requires looking past simple routing flows and addressing the core mechanics of memory, state context, token optimization, and tool delegation.
+
+### 1. Context & State Management
+In multi-agent systems, state must be securely passed between agents. 
+*   **State Serialization**: When Handing off tasks, the output payload of Agent A must be structured (typically using Pydantic schemas) and serialized (JSON) before being injected into Agent B's system prompt or messages list. This enforces data boundaries.
+*   **Token Budgeting**: As agents execute in loops, the chat history grows. In production, you must implement **Payload Pruning** (e.g., sliding window limits, summarizing older messages, or filtering out intermediate system/tool messages) to prevent context window bloat and runaway API token costs.
+
+### 2. Memory: Short-Term vs. Long-Term
+Memory systems are divided based on persistence and retrieval styles:
+*   **Short-Term (Episodic) Memory**: Thread-specific memory tracking the current session's conversation history. It is temporal and discarded when the session ends.
+*   **Long-Term (Semantic & Associative) Memory**: Persistent knowledge shared *across* sessions. 
+    *   *Semantic Memory* uses vector databases to retrieve facts or user profiles via similarity search.
+    *   *Associative Memory* uses Knowledge Graphs (GraphRAG) to reconstruct connections between entities (e.g., linking a customer's workspace, code languages, and deployment history).
+
+### 3. Context Caching
+Stateful multi-agent systems suffer from high latency and input costs because the same large system instructions, document corpora, or chat logs are sent to the LLM on every step of the graph.
+*   **How it works**: Major API providers (Gemini, Anthropic, OpenAI) support **Context Caching**. If the prefix of a prompt (system instructions + context documents + history) matches a cache key, the provider uses pre-computed KV-caches in-memory.
+*   **Impact**: Reduces input token billing by up to **80%** and latency by **50%**, making stateful multi-agent loops economically viable for enterprise workloads.
+
+```mermaid
+graph TD
+    Sub[Large System Prompts / Shared Documents] --> Cache{"Context Cache<br/>(In-Memory on API Server)"}
+    Cache -->|"Cache Hit"| LLM["Fast, Low-Cost Generation"]
+    Cache -->|"Cache Miss"| Embed["Compute KV Cache & Store"]
+```
+
+### 4. Decoupled Tooling & MCP
+In traditional architectures, tools are tightly coupled to the agent framework (e.g., writing a LangChain-specific tool class). In enterprise systems, tools must be decoupled so that any agent running in any environment can invoke them.
+*   **Model Context Protocol (MCP)**: An open standard using a client-server architecture. Tools are hosted on an independent **MCP Server** (running locally or in a sandbox container) and exposed via JSON-RPC. 
+*   **Framework Agnosticism**: An agent framework (acting as the **MCP Client**) queries the server to list and execute tools. This means a single database tool server can be shared seamlessly between LangGraph, custom Python scripts, AWS Bedrock agents, or Google ADK.
+
+---
+
+### 📊 Multi-Agent Framework Comparison
+
+When selecting an orchestration framework, evaluate how they manage state, memory, and deployment scale:
+
+| Framework | State Management | Memory Lifecycle | Caching & Optimization | Tooling & Integration |
+| :--- | :--- | :--- | :--- | :--- |
+| **AWS Bedrock Agents** | Managed session state, state tracking abstracted behind APIs. | Built-in conversational memory; long-term vector integrations. | Abstracted; managed dynamically by AWS servers. | Integrates with AWS Lambda functions and OpenAPI schemas. |
+| **Anthropic (Custom Python)** | Handcrafted state models, explicit message loops. | Handled via custom databases; developer must build episodic logs. | Supported via Anthropic prompt cache headers. | Standard function calling schemas; native MCP client support. |
+| **LangGraph** | Explicit State Graphs with node reducers and cyclic edge routing. | Flexible Checkpointers (in-memory, Redis, PostgreSQL). | Configurable prompt-level headers in node calls. | Supports standard langchain tools and custom python functions. |
+| **Google ADK** | Code-first declarative Workflows (Sequential, Parallel, Loop). | Built-in `Session` abstraction for persistent thread management. | Natively optimized for Gemini context caching. | Out-of-the-box MCP integration; tool verification checkpoints. |
+
+---
+
 ## 📝 Summary & Key Takeaways
 
 - **Multi-Agent Systems** reduce prompt complexity and tool selection failures by dividing labor among specialized agents.
 - **Orchestrator-Worker** relies on a central LLM to route tasks and compile final reports.
 - **Hierarchical Teams** nest agent sub-graphs inside parent graphs for maximum encapsulation.
-- **Peer-to-Peer** links agents sequentially, enabling structured verification loops (e.g., Coder $\rightarrow$ Reviewer $\rightarrow$ Auditor).
-- Maintain strict **Pydantic schemas** for context handoffs to ensure system robustness.
+- **Context Caching** is critical in production to minimize latency and token billing in stateful loops.
+- **decoupled tooling (MCP)** enables tool reuse across different agent engines.
 
 ---
 
 ## 🏁 What's Next?
-In **[Chapter 7: Human-in-the-Loop (HITL)](../07-human-in-the-loop/README.md)**, we will learn how to pause these multi-agent graphs, stream intermediate states, and request user input before executing sensitive actions.
+
+Put theory into practice:
+- 🧪 **[Lab 8: Collaborative Agents with Google ADK](../../labs/lab-08-google-adk/README.md)** — Build specialized agents, custom tools, and collaborative sequential workflows using the Google ADK Python SDK.
+
+After completing the lab, proceed to **[Chapter 7: Human-in-the-Loop (HITL)](../07-human-in-the-loop/README.md)** to learn how to pause these workflows for user validation.
