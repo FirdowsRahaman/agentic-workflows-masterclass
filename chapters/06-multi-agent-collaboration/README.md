@@ -142,15 +142,26 @@ Memory systems are divided based on persistence and retrieval styles:
     *   *Associative Memory* uses Knowledge Graphs (GraphRAG) to reconstruct connections between entities (e.g., linking a customer's workspace, code languages, and deployment history).
 
 ### 3. Context Caching
-Stateful multi-agent systems suffer from high latency and input costs because the same large system instructions, document corpora, or chat logs are sent to the LLM on every step of the graph.
-*   **How it works**: Major API providers (Gemini, Anthropic, OpenAI) support **Context Caching**. If the prefix of a prompt (system instructions + context documents + history) matches a cache key, the provider uses pre-computed KV-caches in-memory.
-*   **Impact**: Reduces input token billing by up to **80%** and latency by **50%**, making stateful multi-agent loops economically viable for enterprise workloads.
+Stateful multi-agent systems suffer from high latency and input costs because the same large system instructions, reference document corpora, or session histories are sent to the LLM on every single step of the multi-agent graph.
+
+#### How Context Caching Works (The KV-Cache Mechanism)
+1.  **The Prefill Phase Bottleneck**: When a model receives a prompt, it must run a "prefill" phase where it computes the Key-Value (KV) attention states for every single token in the input. For long prompts (e.g., 50k tokens of PDF manuals or developer specifications), this is computationally expensive and is the main driver of high **Time-to-First-Token (TTFT)** latency.
+2.  **Saving KV-Attention States**: Context caching works by saving this pre-computed **KV-Cache** in the model provider's GPU/TPU memory. Instead of re-calculating the mathematical attention states on every API call, the server retrieves the saved KV states.
+3.  **Strict Prefix Matching**: The cache is triggered using **Prefix Matching**. The prompt sent to the LLM must start with the *exact* same character-by-character sequence of tokens. For example, if you place your static system prompt and context documents at the absolute beginning of your prompt, they will hit the cache. As soon as you append dynamic data (like the user query or session chat history), the cache boundary ends.
+4.  **Time-To-Live (TTL) & Eviction**: Because GPU memory is highly constrained, caches are temporary. They are assigned a Time-To-Live (TTL) (typically 30 minutes to a few hours). If the cache is not queried again within this window, it is evicted to reclaim space.
+
+#### Token Economics & Performance Impact:
+*   **Latency**: Prefill processing is bypassed for cached tokens, dropping TTFT from several seconds to milliseconds.
+*   **Cost Reduction**: Providers (like Google Gemini and Anthropic Claude) charge a highly discounted rate for cached input tokens (often **50% to 90% cheaper** than standard input tokens). This makes complex multi-agent reasoning loops economically viable for enterprise workloads.
 
 ```mermaid
 graph TD
-    Sub[Large System Prompts / Shared Documents] --> Cache{"Context Cache<br/>(In-Memory on API Server)"}
-    Cache -->|"Cache Hit"| LLM["Fast, Low-Cost Generation"]
-    Cache -->|"Cache Miss"| Embed["Compute KV Cache & Store"]
+    Prompt["Incoming Prompt: [Static Prefix] + [Dynamic Suffix]"] --> Parse{"1. Does [Static Prefix] match a cache key?"}
+    Parse -->|"YES (Cache Hit)"| Fetch["2. Retrieve KV-Cache from GPU Memory<br/>(Skip Prefill Calculations)"]
+    Parse -->|"NO (Cache Miss)"| Compute["2. Compute KV Attention States<br/>for entire prompt"]
+    Compute --> Store["3. Save KV-Cache for [Static Prefix]<br/>(Reset TTL Timer)"]
+    Fetch --> Process["4. Process [Dynamic Suffix] & Generate Response"]
+    Store --> Process
 ```
 
 ### 4. Decoupled Tooling & MCP
