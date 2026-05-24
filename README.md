@@ -103,7 +103,8 @@ This masterclass is designed around the "Read, Build, Master" approach.
   - [Chapter 10: Observability & Tracing](chapters/10-observability-tracing/README.md) — Evaluation and path tracking (LangSmith/Phoenix).
   - [Chapter 11: Evaluation Pipelines](chapters/11-evaluation-pipelines/README.md) — LLM-as-a-judge and ground truth assertions.
   - [Chapter 12: Production Deployment](chapters/12-deployment-serving/README.md) — SSE streaming, Redis state, and WebSockets.
-  - [Chapter 13: The Future of Agents](chapters/13-future-of-agents/README.md) — Multimodality, local LLMs, and web-navigating agents.
+  - [Chapter 13: Context Caching & KV-Cache Optimization](chapters/14-context-caching/README.md) — Prefill bypassing, prefix matching, and token billing economics.
+  - [Chapter 14: The Future of Agents](chapters/13-future-of-agents/README.md) — Multimodality, local LLMs, and web-navigating agents.
 
 ### 🔬 Practice: Labs
 *Build core agent components from the ground up.*

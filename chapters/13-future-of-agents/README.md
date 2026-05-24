@@ -1,4 +1,4 @@
-# Chapter 13: The Future of Agents 🚀
+# Chapter 14: The Future of Agents 🚀
 
 In this final chapter, we explore the cutting-edge horizon of agentic systems. We will analyze Multimodal Agent loops, study how to run lightweight agents locally on-device, and examine the mechanics of web-navigating ("computer use") agents that control browsers and desktop environments directly.
 
@@ -94,7 +94,7 @@ Congratulations! You have completed the curriculum chapters of the **Agentic Wor
 Throughout this course, you have moved from:
 1. **Foundations**: Structuring reasoning loops (ReAct) and overcoming LLM/RAG limits.
 2. **Orchestration**: Graph theory (LangGraph), multi-agent supervisor/peer designs, checkpoints, and human interventions.
-3. **AgentOps**: Setting up telemetry traces (Phoenix), automated evaluations, production deployment (Celery/Postgres), and scaling networks.
+3. **AgentOps & Optimization**: Setting up telemetry traces, automated evaluations, scaling production deployments (Celery/Postgres), and optimizing inference using KV-caching and Context Caching.
 
 You now possess the complete theoretical toolkit required to build, test, and run enterprise-grade, autonomous AI systems.
 

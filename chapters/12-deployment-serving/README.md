@@ -118,4 +118,4 @@ graph TD
 ---
 
 ## 🏁 What's Next?
-In the final chapter, **[Chapter 13: The Future of Agents](../13-future-of-agents/README.md)**, we will explore multi-modal loops, local deployment models, and the horizon of autonomous web-navigation agents.
+In **[Chapter 13: Context Caching & KV-Cache Optimization](../14-context-caching/README.md)**, we will explore the deep mechanics of KV attention states, prefix matching rules, and the economics of caching static contexts in production.
