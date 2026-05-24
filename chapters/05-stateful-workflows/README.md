@@ -5,11 +5,12 @@ In this chapter, we explore stateful agent architectures. We will analyze why st
 ---
 
 ## 📑 Chapter Outline
-- [Why State Matters](#-why-state-matters)
-- [Acyclic (DAGs) vs. Cyclic Graphs](#-acyclic-dags-vs-cyclic-graphs)
-- [Managing State: Reducers & Actions](#-managing-state-reducers--actions)
-- [Persisting State: Database Checkpointers](#-persisting-state-database-checkpointers)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [Why State Matters](#why-state-matters)
+- [Acyclic (DAGs) vs. Cyclic Graphs](#acyclic-dags-vs-cyclic-graphs)
+- [Managing State: Reducers & Actions](#managing-state-reducers--actions)
+- [Persisting State: Database Checkpointers](#persisting-state-database-checkpointers)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 

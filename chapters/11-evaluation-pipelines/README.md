@@ -5,11 +5,12 @@ In this chapter, we explore Agent Evaluation. We will analyze the limitations of
 ---
 
 ## 📑 Chapter Outline
-- [Why Agent Testing is Hard](#-why-agent-testing-is-hard)
-- [Evaluation Methods: Deterministic vs. LLM-as-a-Judge](#-evaluation-methods-deterministic-vs-llm-as-a-judge)
-- [Building Ground Truth Datasets](#-building-ground-truth-datasets)
-- [Implementing Automated Evals Pipelines](#-implementing-automated-evals-pipelines)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [Why Agent Testing is Hard](#why-agent-testing-is-hard)
+- [Evaluation Methods: Deterministic vs. LLM-as-a-Judge](#evaluation-methods-deterministic-vs-llm-as-a-judge)
+- [Building Ground Truth Datasets](#building-ground-truth-datasets)
+- [Implementing Automated Evals Pipelines](#implementing-automated-evals-pipelines)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 

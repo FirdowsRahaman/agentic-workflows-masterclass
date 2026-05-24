@@ -5,12 +5,13 @@ In this chapter, we explore how agents plan, reason, and make choices. We will d
 ---
 
 ## 📑 Chapter Outline
-- [The ReAct Pattern](#-the-react-pattern)
-- [Plan-and-Execute Pattern](#-plan-and-execute-pattern)
-- [Tree of Thoughts (ToT)](#-tree-of-thoughts-tot)
-- [Self-Reflection & Critique loops](#-self-reflection--critique-loops)
-- [LLM Compiler Architecture](#-llm-compiler-architecture)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [The ReAct Pattern](#the-react-pattern)
+- [Plan-and-Execute Pattern](#plan-and-execute-pattern)
+- [Tree of Thoughts (ToT)](#tree-of-thoughts-tot)
+- [Self-Reflection & Critique loops](#self-reflection--critique-loops)
+- [LLM Compiler Architecture](#llm-compiler-architecture)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 
@@ -116,7 +117,22 @@ An LLM Compiler works by:
 2. **Task Director**: Running non-dependent tool calls concurrently.
 3. **Joiner**: Gathering all parallel outputs and deciding if additional planning is required.
 
+```mermaid
+graph TD
+    User["User Query"] --> Planner["Planner<br/>(Generates DAG of Tool Calls)"]
+    Planner --> TD["Task Director<br/>(Parallel Execution)"]
+    TD --> T1["Tool 1 (e.g. Fetch Stock A)"]
+    TD --> T2["Tool 2 (e.g. Fetch Stock B)"]
+    TD --> T3["Tool 3 (e.g. Fetch Stock C)"]
+    T1 --> Joiner["Joiner<br/>(Aggregates Outputs)"]
+    T2 --> Joiner
+    T3 --> Joiner
+    Joiner -->|"Complete"| Final["Final Response"]
+    Joiner -->|"Incomplete / Needs iteration"| Planner
+```
+
 ---
+
 
 ## 📝 Summary & Key Takeaways
 

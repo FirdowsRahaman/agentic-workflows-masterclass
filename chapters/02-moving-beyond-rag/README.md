@@ -5,11 +5,12 @@ In this chapter, we explore how the agentic paradigm enhances search. We will an
 ---
 
 ## 📑 Chapter Outline
-- [The RAG Paradigm Shift](#-the-rag-paradigm-shift)
-- [Limitations of Standard (Static) RAG](#-limitations-of-standard-static-rag)
-- [How Agents Fix RAG: Active Retrieval](#-how-agents-fix-rag-active-retrieval)
-- [Agentic RAG Architectural Patterns](#-agentic-rag-architectural-patterns)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [The RAG Paradigm Shift](#the-rag-paradigm-shift)
+- [Limitations of Standard (Static) RAG](#limitations-of-standard-static-rag)
+- [How Agents Fix RAG: Active Retrieval](#how-agents-fix-rag-active-retrieval)
+- [Agentic RAG Architectural Patterns](#agentic-rag-architectural-patterns)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 

@@ -5,11 +5,12 @@ In this chapter, we explore Agent Observability. We will analyze the challenges 
 ---
 
 ## 📑 Chapter Outline
-- [The Debugging Challenge](#-the-debugging-challenge)
-- [Anatomy of an Agent Trace](#-anatomy-of-an-agent-trace)
-- [Observability Ecosystem: OpenInference, Phoenix & LangSmith](#-observability-ecosystem-openinference-phoenix--langsmith)
-- [Performance & Latency Optimization](#-performance--latency-optimization)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [The Debugging Challenge](#the-debugging-challenge)
+- [Anatomy of an Agent Trace](#anatomy-of-an-agent-trace)
+- [Observability Ecosystem: OpenInference, Phoenix & LangSmith](#observability-ecosystem-openinference-phoenix--langsmith)
+- [Performance & Latency Optimization](#performance--latency-optimization)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 

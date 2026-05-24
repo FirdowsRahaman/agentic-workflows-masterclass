@@ -5,12 +5,13 @@ In this chapter, we explore agent memory. We will analyze the different types of
 ---
 
 ## 📑 Chapter Outline
-- [The Agent Memory Architecture](#-the-agent-memory-architecture)
-- [Episodic Memory (Conversational History)](#-episodic-memory-conversational-history)
-- [Semantic Memory (Long-term Facts & Entities)](#-semantic-memory-long-term-facts--entities)
-- [Procedural Memory (System Instructions & Rules)](#-procedural-memory-system-instructions--rules)
-- [GraphRAG: Associative Memory](#-graphrag-associative-memory)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [The Agent Memory Architecture](#the-agent-memory-architecture)
+- [Episodic Memory (Conversational History)](#episodic-memory-conversational-history)
+- [Semantic Memory (Long-term Facts & Entities)](#semantic-memory-long-term-facts--entities)
+- [Procedural Memory (System Instructions & Rules)](#procedural-memory-system-instructions--rules)
+- [GraphRAG: Associative Memory](#graphrag-associative-memory)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 

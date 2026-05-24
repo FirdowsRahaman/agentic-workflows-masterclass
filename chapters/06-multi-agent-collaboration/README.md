@@ -5,12 +5,13 @@ In this chapter, we explore multi-agent systems. We will compare single-agent an
 ---
 
 ## 📑 Chapter Outline
-- [Why Multi-Agent?](#-why-multi-agent)
-- [Orchestrator-Worker (Supervisor) Pattern](#-orchestrator-worker-supervisor-pattern)
-- [Hierarchical Teams Pattern](#-hierarchical-teams-pattern)
-- [Peer-to-Peer (Choreography) Pattern](#-peer-to-peer-choreography-pattern)
-- [Communication & State Sharing Protocols](#-communication--state-sharing-protocols)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [Why Multi-Agent?](#why-multi-agent)
+- [Orchestrator-Worker (Supervisor) Pattern](#orchestrator-worker-supervisor-pattern)
+- [Hierarchical Teams Pattern](#hierarchical-teams-pattern)
+- [Peer-to-Peer (Choreography) Pattern](#peer-to-peer-choreography-pattern)
+- [Communication & State Sharing Protocols](#communication--state-sharing-protocols)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 
@@ -145,7 +146,8 @@ Memory systems are divided based on persistence and retrieval styles:
 Stateful multi-agent systems suffer from high latency and input costs because the same large system instructions, reference document corpora, or session histories are sent repeatedly to the LLM. 
 *   **Prompt Optimization**: By saving the pre-computed attention states (**KV-Cache**) of static prompt prefixes in the provider's GPU memory, context caching reduces latency and token costs by up to **75-90%** (supported by Gemini, Claude, and GPT-4o).
 
-> 📘 **Deep Dive Guide**: For a detailed mathematical and practical breakdown of prefix matching, time-to-live eviction rules, and model provider pricing comparison, see **[Chapter 14: Context Caching & KV-Cache Optimization](../14-context-caching/README.md)**.
+> 📘 **Deep Dive Guide**: For a detailed mathematical and practical breakdown of prefix matching, time-to-live eviction rules, and model provider pricing comparison, see **[Chapter 13: Context Caching & KV-Cache Optimization](../13-context-caching/README.md)**.
+
 
 ### 4. Decoupled Tooling & MCP
 In traditional architectures, tools are tightly coupled to the agent framework (e.g., writing a LangChain-specific tool class). In enterprise systems, tools must be decoupled so that any agent running in any environment can invoke them.

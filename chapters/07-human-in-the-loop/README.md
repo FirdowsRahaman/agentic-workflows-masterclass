@@ -5,11 +5,12 @@ In this chapter, we explore Human-in-the-Loop (HITL) patterns. We will analyze w
 ---
 
 ## 📑 Chapter Outline
-- [Why Human-in-the-Loop?](#-why-human-in-the-loop)
-- [HITL Interaction Patterns](#-hitl-interaction-patterns)
-- [How State Pausing Works: Breakpoints](#-how-state-pausing-works-breakpoints)
-- [State Mutation: Editing & Time Travel](#-state-mutation-editing--time-travel)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [Why Human-in-the-Loop?](#why-human-in-the-loop)
+- [HITL Interaction Patterns](#hitl-interaction-patterns)
+- [How State Pausing Works: Breakpoints](#how-state-pausing-works-breakpoints)
+- [State Mutation: Editing & Time Travel](#state-mutation-editing--time-travel)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 

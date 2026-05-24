@@ -1,4 +1,4 @@
-# Chapter 14: Context Caching & KV-Cache Optimization ⚡
+# Chapter 13: Context Caching & KV-Cache Optimization ⚡
 
 In stateful multi-agent workflows, the same system instructions, database schemas, API tools, and long chat histories are sent repeatedly to the LLM. In production, this causes high **Time-to-First-Token (TTFT)** latency and **runaway API token costs**. 
 
@@ -7,12 +7,13 @@ This chapter covers the deep technical mechanics of **KV-Caching** and **Context
 ---
 
 ## Outline
-*   [The Math: What is the KV-Cache?](#-the-math-what-is-the-kv-cache)
-*   [Context Caching vs. Standard KV-Caching](#-context-caching-vs-standard-kv-caching)
-*   [Prefix Matching & Eviction Rules](#-prefix-matching--eviction-rules)
-*   [Code Implementation (Python)](#-code-implementation-python)
-*   [Token Economics & Latency Analysis](#-token-economics--latency-analysis)
-*   [Summary & Key Takeaways](#-summary--key-takeaways)
+*   [The Math: What is the KV-Cache?](#the-math-what-is-the-kv-cache)
+*   [Context Caching vs. Standard KV-Caching](#context-caching-vs-standard-kv-caching)
+*   [Prefix Matching & Eviction Rules](#prefix-matching--eviction-rules)
+*   [Code Implementation (Python)](#code-implementation-python)
+*   [Token Economics & Latency Analysis](#token-economics-latency-analysis)
+*   [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 
@@ -179,4 +180,4 @@ Bypassing prefill math drops the **Time-To-First-Token (TTFT)**. For a 100k-toke
 ---
 
 ## 🏁 What's Next?
-In **[Chapter 14: The Future of Agents](../13-future-of-agents/README.md)**, we will explore multimodality, local runtimes, and the evolution of web-navigating agents.
+In **[Chapter 14: The Future of Agents](../14-future-of-agents/README.md)**, we will explore multimodality, local runtimes, and the evolution of web-navigating agents.

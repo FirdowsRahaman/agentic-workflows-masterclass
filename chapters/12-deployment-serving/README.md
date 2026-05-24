@@ -5,11 +5,12 @@ In this chapter, we explore Agent Deployment. We will analyze the server archite
 ---
 
 ## 📑 Chapter Outline
-- [Serving Architecture: REST vs. Streaming vs. WebSockets](#-serving-architecture-rest-vs-streaming-vs-websockets)
-- [Implementing Server-Sent Events (SSE) Streaming](#-implementing-server-sent-events-sse-streaming)
-- [Managing Persistent Sessions in Production](#-managing-persistent-sessions-in-production)
-- [Scaling Stateful Agent Workloads](#-scaling-stateful-agent-workloads)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [Serving Architecture: REST vs. Streaming vs. WebSockets](#serving-architecture-rest-vs-streaming-vs-websockets)
+- [Implementing Server-Sent Events (SSE) Streaming](#implementing-server-sent-events-sse-streaming)
+- [Managing Persistent Sessions in Production](#managing-persistent-sessions-in-production)
+- [Scaling Stateful Agent Workloads](#scaling-stateful-agent-workloads)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 
@@ -118,4 +119,5 @@ graph TD
 ---
 
 ## 🏁 What's Next?
-In **[Chapter 13: Context Caching & KV-Cache Optimization](../14-context-caching/README.md)**, we will explore the deep mechanics of KV attention states, prefix matching rules, and the economics of caching static contexts in production.
+In **[Chapter 13: Context Caching & KV-Cache Optimization](../13-context-caching/README.md)**, we will explore the deep mechanics of KV attention states, prefix matching rules, and the economics of caching static contexts in production.
+

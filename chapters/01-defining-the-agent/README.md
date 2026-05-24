@@ -1,14 +1,15 @@
 # Chapter 1: Defining the Agent Paradigm 🧠
 
-Welcome to the first chapter of the **Agentic Workflows & Multi-Agent Orchestration Masterclass**. In this chapter, we will define what an "Agent" actually is, look at the spectrum of autonomy, and examine the core reasons why we need agentic systems by exploring the fundamental limitations of raw LLMs.
+This chapter defines what an "Agent" is, analyzes the spectrum of autonomy, and explains the core requirements for stateful agentic systems by exploring the fundamental limitations of raw LLMs.
 
 ---
 
 ## 📑 Chapter Outline
-- [What is an AI Agent?](#-what-is-an-ai-agent)
-- [The Autonomy Spectrum](#-the-autonomy-spectrum)
-- [Why We Need Agents: Overcoming LLM Limitations](#-why-we-need-agents-overcoming-llm-limitations)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [What is an AI Agent?](#what-is-an-ai-agent)
+- [The Autonomy Spectrum](#the-autonomy-spectrum)
+- [Why We Need Agents: Overcoming LLM Limitations](#why-we-need-agents-overcoming-llm-limitations)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 

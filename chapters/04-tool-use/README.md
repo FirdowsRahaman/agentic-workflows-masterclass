@@ -5,11 +5,12 @@ In this chapter, we inspect the mechanical plumbing of agent tool use. We will d
 ---
 
 ## 📑 Chapter Outline
-- [Function Calling Under the Hood](#-function-calling-under-the-hood)
-- [Model Context Protocol (Stateless Core & Extensions)](#-model-context-protocol-stateless-core--extensions)
-- [Common Tool Failures & Mitigation](#-common-tool-failures--mitigation)
-- [Handling Large Tool Outputs & Truncation](#-handling-large-tool-outputs--truncation)
-- [Summary & Key Takeaways](#-summary--key-takeaways)
+- [Function Calling Under the Hood](#function-calling-under-the-hood)
+- [Model Context Protocol (Stateless Core & Extensions)](#model-context-protocol-stateless-core--extensions)
+- [Common Tool Failures & Mitigation](#common-tool-failures--mitigation)
+- [Handling Large Tool Outputs & Truncation](#handling-large-tool-outputs--truncation)
+- [Summary & Key Takeaways](#summary--key-takeaways)
+
 
 ---
 
@@ -85,9 +86,20 @@ sequenceDiagram
 
 ## ⚠️ Common Tool Failures & Mitigation
 
-Production agents must expect tools to fail. Here is how to handle the most common tool failures:
+Production agents must expect tools to fail. Here is how the orchestrator intercepts exceptions and loops back to allow LLM self-correction:
+
+```mermaid
+graph TD
+    LLM["LLM Reasoner"] -->|"1. Generates Tool Call"| Client["Orchestrator Client"]
+    Client -->|"2. Invokes Tool"| Tool["Tool Execution Code"]
+    Tool -->|"3. Throws Error (Timeout / Rate Limit / Schema)"| Client
+    Client -->|"4. Error Interceptor & Formatter"| Client
+    Client -->|"5. Formatted Error Output"| LLM
+    LLM -->|"6. Self-Correction Turn"| LLM
+```
 
 ### 1. JSON Parsing & Schema Errors
+
 - **The Problem**: The LLM outputs malformed JSON or omits required fields in the tool arguments.
 - **Mitigation**: Catch validation errors in the agent runtime, wrap the error message, and send it back to the LLM as a tool output. For example: *"Error: Missing required parameter 'state'. Please try calling calculate_tax again with 'state'."* The LLM will inspect the error and self-correct.
 
