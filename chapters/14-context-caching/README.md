@@ -76,54 +76,76 @@ graph TD
 2.  **Minimum Token Limits**: Because creating and loading caches has overhead, providers enforce minimum size limits. Google Gemini requires a minimum of **~32,768 tokens** before a cache can be created. Anthropic Claude requires **1,000 tokens**.
 3.  **TTL (Time-To-Live)**: Caches are assigned a TTL (typically 30 minutes to a few hours). Every time a request hits the cache, the TTL timer is reset. If no requests hit it within the TTL window, it is evicted.
 
+### 💡 Prefix Matching in Action: A Chat Session Example
+
+Here is a visual walk-through of how the cache boundary behaves during a multi-turn conversation. 
+
+Assume we have cached:
+`[System Instructions (5k tokens)]` + `[Reference PDF Guidelines (45k tokens)]` = **Cached Prefix (50k tokens)**
+
+*   **Turn 1**: 
+    *   *Prompt Sent*: `[Cached Prefix (50k tokens)]` + `[User: Hello! (3 tokens)]`
+    *   *Result*: **CACHE HIT**. Only the new `Hello!` query (3 tokens) is processed by the model engine. 
+*   **Turn 2**: 
+    *   *Prompt Sent*: `[Cached Prefix (50k tokens)]` + `[User: Hello! (3 tokens)] + [AI: Hi! (2 tokens)] + [User: Check policy X (10 tokens)]`
+    *   *Result*: **CACHE HIT**. The 50k token prefix still matches exactly at index 0. Only the trailing 15 conversational tokens are computed.
+
 ---
 
 ## 💻 Code Implementation (Python)
 
-Here is how you create and use a Context Cache using the official Google **`google-genai`** SDK:
+Let's break down the implementation using the official Google **`google-genai`** SDK into three small, simple steps:
+
+### Step 1: Define Your Static Context
+Create a single unified string containing all the static prompts and reference files you want to cache.
 
 ```python
 import os
 from google import genai
 from google.genai import types
 
-# 1. Initialize the client
 client = genai.Client()
 
-# 2. Define the large, static context (e.g. system instructions + massive manuals)
-system_instruction = "You are an expert technical support assistant."
+# Static context (Must exceed 32,768 tokens for Gemini)
+system_instruction = "You are a customer support agent."
 large_documents = [
-    "Context document 1: [Massive 50,000 word product specification text...]",
-    "Context document 2: [Massive 30,000 word API reference text...]"
+    "Context doc 1: [Lengthy product manual text...]",
+    "Context doc 2: [Lengthy API reference specifications...]"
 ]
 combined_context = system_instruction + "\n" + "\n".join(large_documents)
+```
 
-# 3. Create the Context Cache (Minimum 32,768 tokens for Gemini)
-print("🔌 Creating context cache on Google servers...")
+### Step 2: Create the Cache on the Server
+Register the static context with the Gemini API cache manager. This computes the KV attention states once and returns a reference name.
+
+```python
+print("🔌 Loading static context into Google cache database...")
 cache = client.caches.create(
     model="gemini-2.5-flash",
     config=types.CreateCachedContentConfig(
         contents=[combined_context],
         displayName="api_docs_cache",
-        ttl="300s", # Cache expires in 5 minutes if unused
+        ttl="300s", # Evict from memory if unused for 5 minutes (300 seconds)
     )
 )
+print(f"🟢 Cache Ready! Cache ID Name: {cache.name}")
+```
 
-print(f"🟢 Cache Created! ID: {cache.name} | Expires at: {cache.expire_time}")
+### Step 3: Generate Responses Using the Cache Reference
+Query the model by pointing to the unique cache ID. The API will fetch the pre-computed KV states, skipping the prefill phase.
 
-# 4. Use the cache in subsequent content generation requests
+```python
 response = client.models.generate_content(
     model="gemini-2.5-flash",
-    contents="How do I configure the API client timeout parameter?",
+    contents="How do I configure the API timeout parameter?",
     config=types.GenerateContentConfig(
-        # Inject the cached content name
+        # Pass the unique cache ID name
         cached_content=cache.name,
     )
 )
+print(f"🤖 Response: {response.text}")
 
-print(f"\n🤖 Response:\n{response.text}")
-
-# 5. Clean up the cache manually when finished (Optional)
+# 4. Clean up the cache manually when finished
 client.caches.delete(name=cache.name)
 print("🗑️ Cache deleted successfully.")
 ```
