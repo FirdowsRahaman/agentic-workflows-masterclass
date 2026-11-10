@@ -8,6 +8,8 @@
   <a href="https://github.com/langchain-ai/langgraph"><img src="https://img.shields.io/badge/Framework-LangGraph-purple?style=for-the-badge" alt="LangGraph"></a>
   <a href="https://github.com/google/generative-ai-python"><img src="https://img.shields.io/badge/SDK-Google%20GenAI-blue?style=for-the-badge" alt="Google GenAI"></a>
   <a href="https://github.com/Arize-AI/phoenix"><img src="https://img.shields.io/badge/Observability-Phoenix-orange?style=for-the-badge" alt="Phoenix"></a>
+  <a href="EU_AI_ACT_TECHNICAL_DOCUMENTATION.md"><img src="https://img.shields.io/badge/EU%20AI%20Act-Annex%20IV%20Compliant-10B981?style=for-the-badge" alt="EU AI Act"></a>
+  <a href="docs/adr/"><img src="https://img.shields.io/badge/Architecture-ADRs-8B5CF6?style=for-the-badge" alt="ADRs"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"></a>
 </div>
 
@@ -29,6 +31,8 @@ This repository provides reference architectures, implementation labs, and capst
 - [The Production Agent Gap](#the-production-agent-gap)
 - [Architectural Paradigm Matrix](#architectural-paradigm-matrix)
 - [Prerequisites & Environment Setup](#prerequisites--environment-setup)
+- [EU AI Act Technical Documentation (Annex IV)](EU_AI_ACT_TECHNICAL_DOCUMENTATION.md)
+- [Architecture Decision Records (ADRs)](docs/adr/)
 - [Curriculum Syllabus](#curriculum-syllabus)
   - [Theory: Chapters](#theory-chapters)
   - [Practice: Labs](#practice-labs)
@@ -130,6 +134,7 @@ This repository follows a **theory-first, implementation-focused** learning path
 - 🧪 **[Lab 6: Evals Pipeline](labs/lab-06-evals-pipeline/README.md)** — Configure automated evaluation suites that run test assertions and compute similarity/completeness scores via LLM judges.
 - 🧪 **[Lab 7: Corrective RAG (CRAG) Engine](labs/lab-07-agentic-rag/README.md)** — Build an advanced RAG pipeline with document grading, query expansion, and web search fallback routes.
 - 🧪 **[Lab 8: Collaborative Agents with Google ADK](labs/lab-08-google-adk/README.md)** — Orchestrate sequential collaborative workflows using Google's Agent Development Kit, exposing custom tools and native MCP server interfaces.
+- 🧪 **[Lab 9: Sovereign European Agent with Mistral AI & vLLM](labs/lab-09-mistral-sovereign-agent/README.md)** — Build a GDPR-compliant autonomous agent using Mistral Large / Codestral with private vLLM sovereign inference and zero data egress.
 
 ### 🏆 Mastery: Capstone Projects
 *Deploy production-ready solutions modeled after enterprise workloads.*

@@ -114,6 +114,22 @@ If an agent goes down an incorrect reasoning path at Checkpoint 3, the developer
 
 ---
 
+## 🇪🇺 EU AI Act Compliance: Article 14 Human Oversight
+
+Under Regulation (EU) 2024/1689 (EU AI Act), **Article 14** mandates that High-Risk AI Systems must be designed with operational Human-in-the-Loop (HITL) interfaces to ensure natural persons can effectively oversee their operation.
+
+### Mandatory Article 14 Operational Capabilities
+
+| Obligation | Description | Agentic Architecture Pattern |
+| :--- | :--- | :--- |
+| **Art. 14(4)(a) Situation Awareness** | Overseer must understand capabilities and limitations of the AI system. | Structured rationale streaming with confidence metrics (`confidence_score`, `source_attribution`). |
+| **Art. 14(4)(b) Automation Bias Resistance** | Prevent human overseers from blindly trusting automated agent tool actions. | Explicit diff views and validation checkpoints before destructive or high-risk tool execution. |
+| **Art. 14(4)(c) Traceable Interpretability** | Human overseer must be able to interpret the agent’s outputs correctly. | Full step-by-step reasoning trace preservation via OpenTelemetry. |
+| **Art. 14(4)(d) Intervention & Override** | Ability to decide not to use the system or to disregard, override, or reverse output. | LangGraph interrupt breakpoints (`interrupt_before=["high_risk_tool"]`) allowing state mutation and trajectory override. |
+| **Art. 14(4)(e) Emergency Kill-Switch** | Ability to intervene or interrupt the system via a "stop" button or procedure. | Circuit-breaker middleware that halts cyclic agent graphs immediately upon anomaly or timeout. |
+
+---
+
 ## 📝 Summary & Key Takeaways
 
 - **Human-in-the-Loop** patterns provide safety, quality control, and escape hatches for autonomous systems.

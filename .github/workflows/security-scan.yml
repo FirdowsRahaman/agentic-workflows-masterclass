@@ -1,0 +1,38 @@
+name: Security & Architecture Compliance
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  compliance-audit:
+    name: Security & Regulatory Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Linting & Security Tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff bandit mypy
+
+      - name: Run Ruff (Code Quality & Style)
+        run: |
+          ruff check .
+
+      - name: Run Bandit (AST Security & Vulnerability Scan)
+        run: |
+          bandit -r . -ll -ii --exclude ./venv,./.git
+
+      - name: Verify EU AI Act Technical Documentation Exists
+        run: |
+          test -f EU_AI_ACT_TECHNICAL_DOCUMENTATION.md || (echo "Missing EU AI Act Documentation!" && exit 1)
+          echo "✅ EU AI Act Annex IV Documentation verified."

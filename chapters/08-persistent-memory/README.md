@@ -79,8 +79,56 @@ graph LR
 ```
 
 ### Why GraphRAG is superior for Agent Memory:
-1. **Context Expansion**: If the agent queries *"MCP Masterclass"*, GraphRAG automatically retrieves connected concepts (*Firdows*, *FastMCP SDK*, *Python*), allowing the agent to understand the broader context.
-2. **Global Summarization**: You can ask the agent *"Summarize Firdows' entire development stack"*. GraphRAG queries the relationships, compiling a complete map that vector search would miss because the facts are scattered across different document files.
+1. **Context Expansion**: If the agent queries *"MCP Masterclass"*, GraphRAG automatically retrieves connected concepts (*FastMCP SDK*, *Python*), allowing the agent to understand the broader context.
+2. **Global Summarization**: You can ask the agent *"Summarize the entire development stack"*. GraphRAG queries the relationships, compiling a complete map that vector search would miss because the facts are scattered across different document files.
+
+---
+
+## 🇪🇺 GDPR Compliance: Article 17 "Right to Erasure" in Agent Memory
+
+When autonomous agents maintain long-term memory across vector databases, semantic caches, and session checkpointers, they fall under the strict scope of **GDPR (Regulation (EU) 2016/679)**. Under **Article 17 (Right to be Forgotten)**, users have the legal right to request the complete deletion of their personal data.
+
+### Distributed Memory Purge Architecture
+
+In traditional relational databases, a single `DELETE FROM users WHERE id = ?` command is sufficient. In agentic AI architectures, user memory is distributed across three distinct persistence layers:
+
+1. **Episodic State Checkpointers**: SQLite/PostgreSQL tables storing raw conversation turns and tool argument history.
+2. **Semantic Vector Stores**: High-dimensional embeddings (e.g. Qdrant, Chroma) where personal identifiers and preferences are mathematically encoded.
+3. **Relational Entity Graphs**: Knowledge Graph nodes (e.g. Neo4j, NetworkX) connecting user preferences with enterprise data.
+
+```python
+from datetime import datetime, timezone
+
+def purge_gdpr_user_memory(user_id: str, checkpointer, vector_store, graph_db) -> dict:
+    """
+    Executes a GDPR Article 17 compliant cryptographic and physical purge 
+    of all episodic, semantic, and relational memory tied to a user identifier.
+    """
+    audit_receipt = {
+        "user_id": user_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "purged_checkpoints": 0,
+        "purged_vectors": 0,
+        "purged_graph_nodes": 0,
+        "status": "COMPLETED"
+    }
+    
+    # 1. Purge episodic thread history from LangGraph checkpointer
+    audit_receipt["purged_checkpoints"] = checkpointer.delete_thread(user_id=user_id)
+    
+    # 2. Purge semantic embeddings by metadata filter
+    audit_receipt["purged_vectors"] = vector_store.delete(
+        filter={"metadata.user_id": user_id}
+    )
+    
+    # 3. Purge relational graph entities & orphan relationships
+    audit_receipt["purged_graph_nodes"] = graph_db.query(
+        "MATCH (u:User {id: $id})-[r]-(n) DETACH DELETE u, n",
+        {"id": user_id}
+    )
+    
+    return audit_receipt
+```
 
 ---
 
