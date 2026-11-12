@@ -36,6 +36,7 @@ This repository provides reference architectures, implementation labs, and capst
 - [Curriculum Syllabus](#curriculum-syllabus)
   - [Theory: Chapters](#theory-chapters)
   - [Practice: Labs](#practice-labs)
+  - [Production Recipes](#production-recipes)
   - [Mastery: Capstone Projects](#mastery-capstone-projects)
 - [Enterprise Tooling Stack](#enterprise-tooling-stack)
 - [Contributing](#contributing)
@@ -136,6 +137,11 @@ This repository follows a **theory-first, implementation-focused** learning path
 - 🧪 **[Lab 8: Collaborative Agents with Google ADK](labs/lab-08-google-adk/README.md)** — Orchestrate sequential collaborative workflows using Google's Agent Development Kit, exposing custom tools and native MCP server interfaces.
 - 🧪 **[Lab 9: Sovereign European Agent with Mistral AI & vLLM](labs/lab-09-mistral-sovereign-agent/README.md)** — Build a GDPR-compliant autonomous agent using Mistral Large / Codestral with private vLLM sovereign inference and zero data egress.
 
+### ⚡ Production Recipes
+*End-to-end performance and infrastructure patterns combining state-of-the-art tools.*
+
+- ⚡ **[Weaviate + Polars + Claude Context Caching](recipes/weaviate-polars-claude-caching/README.md)** — High-throughput columnar preprocessing (Polars Arrow SIMD), isolated vector memory (Weaviate v4 hybrid search), and 90% cost-reduced Claude prompt context caching, deployed via AWS CloudFormation in `eu-central-1` (Frankfurt) or GCP Cloud Run in `europe-west4` (Netherlands).
+
 ### 🏆 Mastery: Capstone Projects
 *Deploy production-ready solutions modeled after enterprise workloads.*
 
@@ -150,6 +156,9 @@ This repository follows a **theory-first, implementation-focused** learning path
 
 *   **[Agent Development Kit (ADK)](https://adk.dev)**: Google's open-source framework for building multi-agent systems and workflows.
 *   **[LangGraph](https://github.com/langchain-ai/langgraph)**: Stateful orchestration library of choice for complex state management.
+*   **[Weaviate](https://weaviate.io)**: Enterprise-grade open-source vector database supporting hybrid search and multi-tenancy.
+*   **[Polars](https://pola.rs)**: Lightning-fast DataFrame library written in Rust for parallel SIMD data preparation.
+*   **[Anthropic Claude](https://anthropic.com)**: State-of-the-art frontier model with ephemeral prompt context caching.
 *   **[GenAI SDK](https://github.com/google/generative-ai-python)**: Official library for Google Gemini models.
 *   **[Phoenix](https://github.com/Arize-AI/phoenix)**: AI observability and tracing platform.
 

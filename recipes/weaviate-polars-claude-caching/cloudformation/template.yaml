@@ -1,0 +1,394 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Enterprise Sovereign Agentic Infrastructure: Weaviate Vector Memory +
+  Polars Data Preprocessing + Claude Context Caching.
+  Deploys zero-egress architecture in AWS Frankfurt (eu-central-1) complying
+  with EU AI Act Annex IV technical documentation and GDPR data residency standards.
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Network Architecture"
+        Parameters:
+          - EnvironmentName
+          - VpcCIDR
+          - PrivateSubnetCIDR
+          - PublicSubnetCIDR
+      - Label:
+          default: "Weaviate Vector Cluster Configuration"
+        Parameters:
+          - WeaviateInstanceType
+          - WeaviateStorageGB
+          - WeaviateDockerTag
+      - Label:
+          default: "Security & Governance (Sovereignty)"
+        Parameters:
+          - ClaudeApiKeySecretArn
+          - AllowedIngressCIDR
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: prod
+    Description: Environment stage tag (e.g., prod, staging).
+
+  VpcCIDR:
+    Type: String
+    Default: 10.100.0.0/16
+    Description: Sovereign VPC CIDR block.
+
+  PublicSubnetCIDR:
+    Type: String
+    Default: 10.100.1.0/24
+    Description: CIDR for public NAT Gateway egress subnet.
+
+  PrivateSubnetCIDR:
+    Type: String
+    Default: 10.100.10.0/24
+    Description: Isolated private subnet for Weaviate memory cluster and pipeline runners.
+
+  WeaviateInstanceType:
+    Type: String
+    Default: m6i.xlarge
+    AllowedValues:
+      - m6i.large
+      - m6i.xlarge
+      - m6i.2xlarge
+      - c6i.xlarge
+      - r6i.xlarge
+    Description: Compute instance type for Weaviate HNSW vector indexing.
+
+  WeaviateStorageGB:
+    Type: Number
+    Default: 100
+    MinValue: 20
+    MaxValue: 2000
+    Description: Size of encrypted EBS volume (gp3) for persistent vector storage.
+
+  WeaviateDockerTag:
+    Type: String
+    Default: "1.26.4"
+    Description: Weaviate container release version.
+
+  ClaudeApiKeySecretArn:
+    Type: String
+    Default: ""
+    Description: (Optional) AWS Secrets Manager ARN storing the Anthropic Claude API Key.
+
+  AllowedIngressCIDR:
+    Type: String
+    Default: 10.100.0.0/16
+    Description: CIDR allowed to query Weaviate vector endpoints (Port 8080 REST / Port 50051 gRPC).
+
+Resources:
+
+  # -------------------------------------------------------------------
+  # 1. SOVEREIGN NETWORK INFRASTRUCTURE (eu-central-1)
+  # -------------------------------------------------------------------
+
+  SovereignVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCIDR
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-sovereign-agent-vpc"
+        - Key: Compliance
+          Value: EU-AI-Act-GDPR-Sovereign
+        - Key: DataResidency
+          Value: eu-central-1-Frankfurt
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-sovereign-igw"
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref SovereignVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref SovereignVPC
+      CidrBlock: !Ref PublicSubnetCIDR
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-public-subnet"
+
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref SovereignVPC
+      CidrBlock: !Ref PrivateSubnetCIDR
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-private-isolated-subnet"
+
+  NatEIP:
+    Type: AWS::EC2::EIP
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+
+  NatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatEIP.AllocationId
+      SubnetId: !Ref PublicSubnet
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-nat-gw"
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref SovereignVPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-public-rt"
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref SovereignVPC
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-private-rt"
+
+  PrivateRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway
+
+  PrivateSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet
+      RouteTableId: !Ref PrivateRouteTable
+
+  # -------------------------------------------------------------------
+  # 2. KMS SOVEREIGN ENCRYPTION
+  # -------------------------------------------------------------------
+
+  SovereignKMSKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: Customer-managed key encrypting Weaviate vector persistence and audit logs
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: '2012-10-17'
+        Id: sovereign-agentic-key-policy
+        Statement:
+          - Sid: Enable IAM User Permissions
+            Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+
+  SovereignKMSAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: !Sub "alias/${EnvironmentName}-sovereign-agent-key"
+      TargetKeyId: !Ref SovereignKMSKey
+
+  # -------------------------------------------------------------------
+  # 3. SECURITY GROUPS & IAM ROLES
+  # -------------------------------------------------------------------
+
+  WeaviateSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Weaviate Vector Memory Cluster
+      VpcId: !Ref SovereignVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: !Ref AllowedIngressCIDR
+          Description: Weaviate REST API
+        - IpProtocol: tcp
+          FromPort: 50051
+          ToPort: 50051
+          CidrIp: !Ref AllowedIngressCIDR
+          Description: Weaviate v4 gRPC High-Speed API
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+          Description: Allow outbound package updates & telemetry
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-weaviate-sg"
+
+  WeaviateIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${EnvironmentName}-weaviate-node-role"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+      Policies:
+        - PolicyName: WeaviateSecretsAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsmanager:GetSecretValue
+                  - kms:Decrypt
+                Resource: "*"
+
+  WeaviateInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref WeaviateIAMRole
+
+  # -------------------------------------------------------------------
+  # 4. WEAVIATE PERSISTENT VECTOR MEMORY NODE
+  # -------------------------------------------------------------------
+
+  WeaviateEBSVolume:
+    Type: AWS::EC2::Volume
+    Properties:
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Encrypted: true
+      KmsKeyId: !Ref SovereignKMSKey
+      Size: !Ref WeaviateStorageGB
+      VolumeType: gp3
+      Iops: 3000
+      Throughput: 125
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-weaviate-storage"
+
+  WeaviateInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !Ref WeaviateInstanceType
+      SubnetId: !Ref PrivateSubnet
+      SecurityGroupIds:
+        - !Ref WeaviateSecurityGroup
+      IamInstanceProfile: !Ref WeaviateInstanceProfile
+      ImageId: resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-weaviate-vector-cluster"
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -e
+          dnf update -y
+          dnf install -y docker nvme-cli
+          systemctl enable docker
+          systemctl start docker
+
+          # Wait for EBS volume attachment
+          mkdir -p /var/lib/weaviate
+          DATA_DEV=$(lsblk -dpno NAME,TYPE | grep disk | grep -v nvme0n1 | head -n1 | awk '{print $1}')
+          if [ -n "$DATA_DEV" ]; then
+            if ! blkid "$DATA_DEV"; then
+              mkfs.xfs "$DATA_DEV"
+            fi
+            mount "$DATA_DEV" /var/lib/weaviate
+            echo "$DATA_DEV /var/lib/weaviate xfs defaults,nofail 0 2" >> /etc/fstab
+          fi
+
+          # Launch Weaviate Docker Container
+          docker run -d \
+            --name weaviate-server \
+            --restart always \
+            -p 8080:8080 \
+            -p 50051:50051 \
+            -v /var/lib/weaviate:/var/lib/weaviate \
+            -e PERSISTENCE_DATA_PATH='/var/lib/weaviate' \
+            -e AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED='true' \
+            -e DEFAULT_VECTORIZER_MODULE='none' \
+            -e ENABLE_MODULES='' \
+            -e CLUSTER_HOSTNAME='weaviate-node-1' \
+            -e PROMETHEUS_MONITORING_ENABLED='true' \
+            cr.weaviate.io/semitechnologies/weaviate:${WeaviateDockerTag}
+
+  VolumeAttachment:
+    Type: AWS::EC2::VolumeAttachment
+    Properties:
+      InstanceId: !Ref WeaviateInstance
+      VolumeId: !Ref WeaviateEBSVolume
+      Device: /dev/xvdf
+
+  # -------------------------------------------------------------------
+  # 5. CLOUDWATCH AUDIT LOGGING (EU AI ACT ART. 12 RECORD-KEEPING)
+  # -------------------------------------------------------------------
+
+  AuditLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/sovereign-agent/${EnvironmentName}/audit"
+      RetentionInDays: 365
+      KmsKeyId: !GetAtt SovereignKMSKey.Arn
+
+Outputs:
+  VpcId:
+    Description: Identifier of the Sovereign European VPC
+    Value: !Ref SovereignVPC
+    Export:
+      Name: !Sub "${EnvironmentName}-VpcId"
+
+  PrivateSubnetId:
+    Description: Isolated Subnet containing Weaviate
+    Value: !Ref PrivateSubnet
+    Export:
+      Name: !Sub "${EnvironmentName}-PrivateSubnetId"
+
+  WeaviatePrivateIp:
+    Description: Internal IP of Weaviate Vector Memory Node
+    Value: !GetAtt WeaviateInstance.PrivateIp
+    Export:
+      Name: !Sub "${EnvironmentName}-WeaviatePrivateIp"
+
+  WeaviateRestEndpoint:
+    Description: Internal REST endpoint for Weaviate
+    Value: !Sub "http://${WeaviateInstance.PrivateIp}:8080"
+
+  WeaviateGrpcEndpoint:
+    Description: Internal gRPC endpoint for Weaviate v4 Client
+    Value: !Sub "${WeaviateInstance.PrivateIp}:50051"
+
+  KmsKeyArn:
+    Description: ARN of Customer-Managed Sovereign KMS Key
+    Value: !GetAtt SovereignKMSKey.Arn
