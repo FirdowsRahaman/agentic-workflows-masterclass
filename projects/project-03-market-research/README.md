@@ -1,10 +1,10 @@
-# Capstone Project 3: Collaborative Market Research 📈
+# Capstone Project 3: Collaborative Market Research 
 
 Welcome to Capstone Project 3! In this project, we construct a **Collaborative Market Research Agent Network**. You will learn how to design worker agents that scrape competitor statistics (simulating Tavily Search) and map entity relationships into nodes and edges (simulating Neo4j knowledge graphs), guided by a central supervisor compiling the final markdown analysis report.
 
 ---
 
-## 🎯 Project Goal
+## Project Goal
 Decouple and map complex information streams. The agent workflow contains:
 - **Search Agent (Worker)**: Fetches web data, financials, and text descriptions of competitors.
 - **Graph Agent (Worker)**: Analyzes search results to extract key entities (competitors, technologies, funding) and writes graph relations.
@@ -12,12 +12,12 @@ Decouple and map complex information streams. The agent workflow contains:
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The market research script containing search APIs, entity relationship extractors, and compiler nodes.
 
 ---
 
-## ⚙️ Architecture Topology
+## Architecture Topology
 
 ```mermaid
 graph TD
@@ -31,7 +31,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Project
+## Running the Project
 
 ### Run instructions
 Navigate to the project directory:

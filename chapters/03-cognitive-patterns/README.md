@@ -1,10 +1,10 @@
-# Chapter 3: Cognitive Design Patterns 🧩
+# Chapter 3: Cognitive Design Patterns 
 
 In this chapter, we explore how agents plan, reason, and make choices. We will dive deep into the classic ReAct (Reason + Action) loop and investigate advanced planning structures like Plan-and-Execute, Tree of Thoughts, and Self-Reflection/Critique loops.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [The ReAct Pattern](#the-react-pattern)
 - [Plan-and-Execute Pattern](#plan-and-execute-pattern)
 - [Tree of Thoughts (ToT)](#tree-of-thoughts-tot)
@@ -15,7 +15,7 @@ In this chapter, we explore how agents plan, reason, and make choices. We will d
 
 ---
 
-## 🔁 The ReAct Pattern
+## The ReAct Pattern
 
 The **ReAct (Reason + Action)** pattern, introduced by Yao et al. in 2022, is the foundation of modern agentic workflows. By prompting the LLM to generate both *reasoning traces* and *action details* in an alternating fashion, the agent's reasoning ability is dynamically coupled with external tools.
 
@@ -42,7 +42,7 @@ If the agent goes straight to the action without reasoning first, it is much mor
 
 ---
 
-## 🗺️ Plan-and-Execute Pattern
+## Plan-and-Execute Pattern
 
 While the ReAct loop is excellent for quick exploration, it suffers from a lack of foresight on complex tasks. It makes step-by-step decisions, but can easily lose track of the larger goal.
 
@@ -69,17 +69,17 @@ This separation of concerns results in highly stable, long-running agent workflo
 
 ---
 
-## 🌳 Tree of Thoughts (ToT)
+## Tree of Thoughts (ToT)
 
 For tasks requiring strategic exploration, search, or lookahead (like coding, complex math, or planning itineraries), linear generation is insufficient. **Tree of Thoughts** allows the agent to evaluate multiple candidate actions at each step:
 
 ```mermaid
 graph TD
     Root["Initial State"] --> T1["Thought 1a (Score: 0.8)"]
-    Root --> T2["Thought 1b (Score: 0.2) ❌ Pruned"]
+    Root --> T2["Thought 1b (Score: 0.2)  Pruned"]
     Root --> T3["Thought 1c (Score: 0.5)"]
-    T1 --> T1a["Thought 2a (Best Path) ⭐"]
-    T3 --> T3a["Thought 2b (Score: 0.3) ❌ Pruned"]
+    T1 --> T1a["Thought 2a (Best Path) "]
+    T3 --> T3a["Thought 2b (Score: 0.3)  Pruned"]
 ```
 
 - **Candidate Generation**: The LLM proposes multiple possible next thoughts/actions.
@@ -88,7 +88,7 @@ graph TD
 
 ---
 
-## 🔍 Self-Reflection & Critique Loops
+## Self-Reflection & Critique Loops
 
 A reflection loop is a simple state machine where a generator agent's output is checked by a critique agent:
 
@@ -108,7 +108,7 @@ graph LR
 
 ---
 
-## ⚡ LLM Compiler Architecture
+## LLM Compiler Architecture
 
 The **LLM Compiler** is an optimization pattern designed to minimize LLM latency. In typical ReAct agents, tool execution is sequential. If three tools need to run (e.g., fetching 3 different stock prices), it takes 3 round-trips.
 
@@ -134,7 +134,7 @@ graph TD
 ---
 
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **ReAct** couples reasoning with action, forming the fundamental loop of autonomous agents.
 - **Plan-and-Execute** decouples high-level macro planning from execution, increasing system predictability.
@@ -143,5 +143,5 @@ graph TD
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 4: Tool Use & Handshaking](../04-tool-use/README.md)**, we will examine the protocol layer: how models interact with APIs, handle schema matching, and recover from real-world communication errors.

@@ -1,10 +1,10 @@
-# Chapter 2: Moving Beyond Static RAG 🔍
+# Chapter 2: Moving Beyond Static RAG 
 
 In this chapter, we explore how the agentic paradigm enhances search. We will analyze the severe structural limitations of standard, passive Retrieval-Augmented Generation (RAG) systems and show how active agentic loops resolve these problems to build resilient, state-of-the-art information retrieval systems.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [The RAG Paradigm Shift](#the-rag-paradigm-shift)
 - [Limitations of Standard (Static) RAG](#limitations-of-standard-static-rag)
 - [How Agents Fix RAG: Active Retrieval](#how-agents-fix-rag-active-retrieval)
@@ -14,7 +14,7 @@ In this chapter, we explore how the agentic paradigm enhances search. We will an
 
 ---
 
-## 🔄 The RAG Paradigm Shift
+## The RAG Paradigm Shift
 
 Traditional RAG was a massive leap forward, allowing models to answer questions using private data without retraining. However, traditional RAG is **passive** and **linear**:
 
@@ -30,7 +30,7 @@ There is no validation step. If the retriever fetches bad chunks, or if the user
 
 ---
 
-## ⚠️ Limitations of Standard (Static) RAG
+## Limitations of Standard (Static) RAG
 
 Static RAG systems fail in predictable ways when confronted with real-world enterprise documents:
 
@@ -50,7 +50,7 @@ Static RAG systems fail in predictable ways when confronted with real-world ente
 
 ---
 
-## 🛠️ How Agents Fix RAG: Active Retrieval
+## How Agents Fix RAG: Active Retrieval
 
 Agentic RAG replaces the rigid linear pipeline with an iterative, self-correcting loop. The agent acts as an active search coordinator:
 
@@ -79,7 +79,7 @@ For complex queries, the agent breaks the problem down into steps, retrieves the
 
 ---
 
-## 🏛️ Agentic RAG Architectural Patterns
+## Agentic RAG Architectural Patterns
 
 When building Agentic RAG, we utilize three main patterns:
 
@@ -89,7 +89,7 @@ When building Agentic RAG, we utilize three main patterns:
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **Static RAG** is limited by its rigid, one-shot retrieval structure.
 - **Agentic RAG** introduces planning, evaluation, and iteration, enabling multi-hop reasoning and active self-correction.
@@ -97,9 +97,9 @@ When building Agentic RAG, we utilize three main patterns:
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 
 Put theory into practice:
-- 🧪 **[Lab 7: Corrective RAG (CRAG) Engine](../../labs/lab-07-agentic-rag/README.md)** — Build document grading, query expansion, and web search fallback in a LangGraph-style pipeline.
+- **[Lab 7: Corrective RAG (CRAG) Engine](../../labs/lab-07-agentic-rag/README.md)** — Build document grading, query expansion, and web search fallback in a LangGraph-style pipeline.
 
 After completing the lab, proceed to **[Chapter 3: Cognitive Design Patterns](../03-cognitive-patterns/README.md)**, where we will build the core planning mechanisms of agents using standard ReAct (Reason + Action) loops.

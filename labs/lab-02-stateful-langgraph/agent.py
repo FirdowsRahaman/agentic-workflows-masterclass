@@ -26,7 +26,7 @@ class AgentState(TypedDict):
 
 def check_account_balance(user_id: str) -> str:
     """Checks the current account balance for a given user ID."""
-    print(f"   [Tool Executing] check_account_balance for user {user_id}...")
+    print(f"[Tool Executing] check_account_balance for user {user_id}...")
     uid = user_id.strip()
     balances = {"102": 5420.50, "304": 120.00}
     balance = balances.get(uid, 0.0)
@@ -38,7 +38,7 @@ def check_account_balance(user_id: str) -> str:
 
 def call_model_node(state: AgentState) -> dict:
     """The reasoning node: calls the LLM to decide the next step."""
-    print("🤖 [Node: call_model_node] Reasoning...")
+    print("[Node: call_model_node] Reasoning...")
     messages = state["messages"]
     query = state["query"]
     
@@ -46,7 +46,7 @@ def call_model_node(state: AgentState) -> dict:
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         # Mock Response sequence for demo mode
-        print("ℹ️ Running in Mock Mode...")
+        print("ℹ Running in Mock Mode...")
         if len(messages) == 0:
             ai_message = {
                 "role": "assistant",
@@ -109,7 +109,7 @@ def call_model_node(state: AgentState) -> dict:
 
 def execute_tools_node(state: AgentState) -> dict:
     """The action node: executes any pending tool calls."""
-    print("🛠️ [Node: execute_tools_node] Executing tools...")
+    print("[Node: execute_tools_node] Executing tools...")
     last_message = state["messages"][-1]
     tool_calls = last_message.get("tool_calls", [])
     
@@ -140,10 +140,10 @@ def should_continue_edge(state: AgentState) -> str:
     tool_calls = last_message.get("tool_calls", [])
     
     if len(tool_calls) > 0:
-        print("🔗 [Edge] Tool calls pending ──> routing to 'execute_tools'")
+        print("[Edge] Tool calls pending ──> routing to 'execute_tools'")
         return "execute_tools"
     else:
-        print("🔗 [Edge] No tool calls ──> routing to '__end__'")
+        print("[Edge] No tool calls ──> routing to '__end__'")
         return "__end__"
 
 # =====================================================================
@@ -152,7 +152,7 @@ def should_continue_edge(state: AgentState) -> str:
 
 def run_stateful_agent(query: str):
     print("=" * 70)
-    print(f"🚀 Running LangGraph workflow with query: '{query}'")
+    print(f"Running LangGraph workflow with query: '{query}'")
     print("=" * 70)
     
     # We construct a state graph manually to show how the state machine compiles
@@ -189,7 +189,7 @@ def run_stateful_agent(query: str):
             
             # Print state message logs
             last_msg = state["messages"][-1]
-            print(f"   [Assistant Message] {last_msg['content']}")
+            print(f"[Assistant Message] {last_msg['content']}")
             
             # Evaluate conditional edge
             next_step = should_continue_edge(state)
@@ -206,14 +206,14 @@ def run_stateful_agent(query: str):
             
             # Print observations
             for msg in updates["messages"]:
-                print(f"   [Tool Response] {msg['content']}")
+                print(f"[Tool Response] {msg['content']}")
                 
             # Route back to model
             current_node = "call_model"
 
-    print("\n🎉 Graph Execution Finished!")
+    print("\n Graph Execution Finished!")
     final_message = state["messages"][-1]
-    print(f"👉 Result: {final_message['content']}\n")
+    print(f"Result: {final_message['content']}\n")
 
 if __name__ == "__main__":
     test_query = "Please check the account balance for user 102."

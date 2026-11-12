@@ -1,4 +1,4 @@
-# Chapter 13: Context Caching & KV-Cache Optimization ⚡
+# Chapter 13: Context Caching & KV-Cache Optimization 
 
 In stateful multi-agent workflows, the same system instructions, database schemas, API tools, and long chat histories are sent repeatedly to the LLM. In production, this causes high **Time-to-First-Token (TTFT)** latency and **runaway API token costs**. 
 
@@ -7,17 +7,17 @@ This chapter covers the deep technical mechanics of **KV-Caching** and **Context
 ---
 
 ## Outline
-*   [The Math: What is the KV-Cache?](#the-math-what-is-the-kv-cache)
-*   [Context Caching vs. Standard KV-Caching](#context-caching-vs-standard-kv-caching)
-*   [Prefix Matching & Eviction Rules](#prefix-matching--eviction-rules)
-*   [Code Implementation (Python)](#code-implementation-python)
-*   [Token Economics & Latency Analysis](#token-economics-latency-analysis)
-*   [Summary & Key Takeaways](#summary--key-takeaways)
+* [The Math: What is the KV-Cache?](#the-math-what-is-the-kv-cache)
+* [Context Caching vs. Standard KV-Caching](#context-caching-vs-standard-kv-caching)
+* [Prefix Matching & Eviction Rules](#prefix-matching--eviction-rules)
+* [Code Implementation (Python)](#code-implementation-python)
+* [Token Economics & Latency Analysis](#token-economics-latency-analysis)
+* [Summary & Key Takeaways](#summary--key-takeaways)
 
 
 ---
 
-## 🎨 Architectural Overview
+## Architectural Overview
 
 Below is the conceptual architecture of how context caching stores pre-computed states to optimize inference:
 
@@ -25,7 +25,7 @@ Below is the conceptual architecture of how context caching stores pre-computed 
 
 ---
 
-## 🧠 The Math: What is the KV-Cache?
+## The Math: What is the KV-Cache?
 
 To understand context caching, we must first understand the mathematics of the **Transformer Self-Attention** mechanism.
 
@@ -56,7 +56,7 @@ It is crucial to distinguish between these two caching mechanisms:
 
 ---
 
-## 📏 Prefix Matching & Eviction Rules
+## Prefix Matching & Eviction Rules
 
 To trigger a context cache hit, the model server uses **Strict Prefix Matching**:
 
@@ -77,23 +77,23 @@ graph TD
 2.  **Minimum Token Limits**: Because creating and loading caches has overhead, providers enforce minimum size limits. Google Gemini requires a minimum of **~32,768 tokens** before a cache can be created. Anthropic Claude requires **1,000 tokens**.
 3.  **TTL (Time-To-Live)**: Caches are assigned a TTL (typically 30 minutes to a few hours). Every time a request hits the cache, the TTL timer is reset. If no requests hit it within the TTL window, it is evicted.
 
-### 💡 Prefix Matching in Action: A Chat Session Example
+### Prefix Matching in Action: A Chat Session Example
 
 Here is a visual walk-through of how the cache boundary behaves during a multi-turn conversation. 
 
 Assume we have cached:
 `[System Instructions (5k tokens)]` + `[Reference PDF Guidelines (45k tokens)]` = **Cached Prefix (50k tokens)**
 
-*   **Turn 1**: 
-    *   *Prompt Sent*: `[Cached Prefix (50k tokens)]` + `[User: Hello! (3 tokens)]`
-    *   *Result*: **CACHE HIT**. Only the new `Hello!` query (3 tokens) is processed by the model engine. 
-*   **Turn 2**: 
-    *   *Prompt Sent*: `[Cached Prefix (50k tokens)]` + `[User: Hello! (3 tokens)] + [AI: Hi! (2 tokens)] + [User: Check policy X (10 tokens)]`
-    *   *Result*: **CACHE HIT**. The 50k token prefix still matches exactly at index 0. Only the trailing 15 conversational tokens are computed.
+* **Turn 1**: 
+    * *Prompt Sent*: `[Cached Prefix (50k tokens)]` + `[User: Hello! (3 tokens)]`
+    * *Result*: **CACHE HIT**. Only the new `Hello!` query (3 tokens) is processed by the model engine. 
+* **Turn 2**: 
+    * *Prompt Sent*: `[Cached Prefix (50k tokens)]` + `[User: Hello! (3 tokens)] + [AI: Hi! (2 tokens)] + [User: Check policy X (10 tokens)]`
+    * *Result*: **CACHE HIT**. The 50k token prefix still matches exactly at index 0. Only the trailing 15 conversational tokens are computed.
 
 ---
 
-## 💻 Code Implementation (Python)
+## Code Implementation (Python)
 
 Let's break down the implementation using the official Google **`google-genai`** SDK into three small, simple steps:
 
@@ -120,7 +120,7 @@ combined_context = system_instruction + "\n" + "\n".join(large_documents)
 Register the static context with the Gemini API cache manager. This computes the KV attention states once and returns a reference name.
 
 ```python
-print("🔌 Loading static context into Google cache database...")
+print(" Loading static context into Google cache database...")
 cache = client.caches.create(
     model="gemini-2.5-flash",
     config=types.CreateCachedContentConfig(
@@ -144,40 +144,40 @@ response = client.models.generate_content(
         cached_content=cache.name,
     )
 )
-print(f"🤖 Response: {response.text}")
+print(f" Response: {response.text}")
 
 # 4. Clean up the cache manually when finished
 client.caches.delete(name=cache.name)
-print("🗑️ Cache deleted successfully.")
+print(" Cache deleted successfully.")
 ```
 
 ---
 
-## 📊 Token Economics & Latency Analysis
+## Token Economics & Latency Analysis
 
 Context caching changes the economics of running LLM agents:
 
 ### 1. Cost Savings
 By reusing pre-computed states, providers offer heavy discounts:
-*   **Google Gemini**: Offers a **75% discount** on cached input tokens compared to standard input tokens.
-*   **Anthropic Claude**: Offers a **75% discount** on cached tokens and a **25% surcharge** on the initial cache creation write.
-*   **OpenAI**: Offers a **50% discount** on cached input tokens.
+* **Google Gemini**: Offers a **75% discount** on cached input tokens compared to standard input tokens.
+* **Anthropic Claude**: Offers a **75% discount** on cached tokens and a **25% surcharge** on the initial cache creation write.
+* **OpenAI**: Offers a **50% discount** on cached input tokens.
 
 ### 2. Latency Optimization
 Bypassing prefill math drops the **Time-To-First-Token (TTFT)**. For a 100k-token prompt:
-*   *Without Caching*: Prefill can take **4.5 to 7.0 seconds** of compute time before the first character is generated.
-*   *With Caching*: Prefill drops to **0.2 to 0.4 seconds**, a **~95% latency reduction**.
+* *Without Caching*: Prefill can take **4.5 to 7.0 seconds** of compute time before the first character is generated.
+* *With Caching*: Prefill drops to **0.2 to 0.4 seconds**, a **~95% latency reduction**.
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
-*   **KV-Caching** stores Key and Value attention matrices to optimize generation from $\mathcal{O}(N^2)$ to $\mathcal{O}(N)$ complexity.
-*   **Context Caching** persists these matrices *across separate requests*, saving them in GPU memory for multi-agent loops.
-*   **Prefix Matching** is strict; cached content must start at token `0` and be character-identical.
-*   **Production agents** must group static resources at the top of the prompt to maximize cache hits.
+* **KV-Caching** stores Key and Value attention matrices to optimize generation from $\mathcal{O}(N^2)$ to $\mathcal{O}(N)$ complexity.
+* **Context Caching** persists these matrices *across separate requests*, saving them in GPU memory for multi-agent loops.
+* **Prefix Matching** is strict; cached content must start at token `0` and be character-identical.
+* **Production agents** must group static resources at the top of the prompt to maximize cache hits.
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 14: The Future of Agents](../14-future-of-agents/README.md)**, we will explore multimodality, local runtimes, and the evolution of web-navigating agents.

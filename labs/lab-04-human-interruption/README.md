@@ -1,22 +1,22 @@
-# Lab 4: Human Interruption (HITL) 👤
+# Lab 4: Human Interruption (HITL) 
 
 Welcome to Lab 4! In this lab, we implement a **Human-in-the-Loop (HITL) Breakpoint** safeguard. You will learn how to intercept agent actions, pause the execution thread, prompt an administrator for validation, and modify or abort execution based on user feedback.
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 - Design a validation breakpoint checking agent outputs before running destructive nodes.
 - Capture human console inputs (`Approve / Reject`) during state suspension.
 - See how state persistence allows resuming or terminating threads cleanly.
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The Python script illustrating the transaction generation node, the breakpoint prompt, and the database node execution.
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
 ### 1. The Breakpoint Checkpoint
 When an agent prepares a database mutation query (e.g., `UPDATE accounts`), we don't route immediately to the execution engine. Instead, the runner halts the current run and updates status to `pending_approval`.
@@ -38,7 +38,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 ### Run instructions
 Navigate to the lab directory:

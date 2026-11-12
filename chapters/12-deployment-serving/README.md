@@ -1,10 +1,10 @@
-# Chapter 12: Production Deployment & Serving 🚀
+# Chapter 12: Production Deployment & Serving 
 
 In this chapter, we explore Agent Deployment. We will analyze the server architectures required to serve agents, implement real-time output streaming (Server-Sent Events), and design scaling strategies to handle thousands of concurrent stateful sessions.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [Serving Architecture: REST vs. Streaming vs. WebSockets](#serving-architecture-rest-vs-streaming-vs-websockets)
 - [Implementing Server-Sent Events (SSE) Streaming](#implementing-server-sent-events-sse-streaming)
 - [Managing Persistent Sessions in Production](#managing-persistent-sessions-in-production)
@@ -14,7 +14,7 @@ In this chapter, we explore Agent Deployment. We will analyze the server archite
 
 ---
 
-## 🌐 Serving Architecture
+## Serving Architecture
 
 Serving agents is fundamentally different from serving standard web APIs:
 - **High Latency**: An agent processing a query might take 10 seconds to generate its plan and execute tools. If we use a standard REST request-response loop, the user faces a blank loading screen, leading to a poor user experience.
@@ -35,7 +35,7 @@ graph TD
 
 ---
 
-## 🌊 Implementing Server-Sent Events (SSE) Streaming
+## Implementing Server-Sent Events (SSE) Streaming
 
 An agent SSE stream splits the output into structured events so the frontend can render thoughts, tool calls, and final tokens separately.
 
@@ -67,7 +67,7 @@ This event stream keeps the user engaged by showing exactly what the agent is do
 
 ---
 
-## 🗄️ Managing Persistent Sessions in Production
+## Managing Persistent Sessions in Production
 
 In development, we use local checkpointers (like SQLite). In production, we deploy a distributed database setup:
 
@@ -87,7 +87,7 @@ graph LR
 
 ---
 
-## 📈 Scaling Stateful Agent Workloads
+## Scaling Stateful Agent Workloads
 
 Because agent runs are long-lived and CPU/network-intensive, running them inside the web server process will block API event loops.
 
@@ -109,7 +109,7 @@ graph TD
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - Deploy agents using **Server-Sent Events (SSE)** to stream intermediate thoughts and tool status updates to the user.
 - Persist state across API containers using a shared **PostgreSQL checkpointer**.
@@ -118,6 +118,6 @@ graph TD
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 13: Context Caching & KV-Cache Optimization](../13-context-caching/README.md)**, we will explore the deep mechanics of KV attention states, prefix matching rules, and the economics of caching static contexts in production.
 

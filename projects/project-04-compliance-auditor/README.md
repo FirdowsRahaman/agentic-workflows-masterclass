@@ -1,10 +1,10 @@
-# Capstone Project 4: Compliance & Risk Auditor 🛡️
+# Capstone Project 4: Compliance & Risk Auditor 
 
 Welcome to Capstone Project 4! In this project, we implement an **Autonomous Corporate Compliance & Risk Auditor**. You will learn how to write schemas using Pydantic, parse unstructured corporate reports into structured JSON objects, check threshold boundaries, and trigger automatic business corrective actions (like drafting warning notices) when compliance violations are found.
 
 ---
 
-## 🎯 Project Goal
+## Project Goal
 Automate regulatory compliance. The agent workflow contains:
 1. **Auditor Node**: Analyzes text documents (reports, emails, logs) and extracts details according to a strict Pydantic structure (`ComplianceSchema`).
 2. **Pydantic Validation**: Guarantees that score, violated clauses, and recommendations are parsed cleanly.
@@ -12,12 +12,12 @@ Automate regulatory compliance. The agent workflow contains:
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The compliance risk script containing schemas, document parsing nodes, and corrective warning memo functions.
 
 ---
 
-## ⚙️ Workflow Architecture
+## Workflow Architecture
 
 ```mermaid
 graph TD
@@ -32,7 +32,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Project
+## Running the Project
 
 ### Run instructions
 Navigate to the project directory:

@@ -23,7 +23,7 @@ class TeamState(TypedDict):
 
 def run_researcher_agent(task: str) -> str:
     """Simulates a researcher agent searching the web for information."""
-    print("🔎 [Worker: Researcher] Scraping search results and compiling data...")
+    print("[Worker: Researcher] Scraping search results and compiling data...")
     t = task.lower()
     if "market" in t:
         return "Market Research: AI Agent Market is projected to grow 45% CAGR, reaching $30B by 2030."
@@ -34,7 +34,7 @@ def run_researcher_agent(task: str) -> str:
 
 def run_coder_agent(task: str, context: str) -> str:
     """Simulates a coder agent generating code based on researcher data."""
-    print("💻 [Worker: Coder] Writing code solution...")
+    print("[Worker: Coder] Writing code solution...")
     return (
         "```python\n"
         "# Automatic Code Solution Generated based on: " + context + "\n"
@@ -49,7 +49,7 @@ def run_coder_agent(task: str, context: str) -> str:
 
 def run_supervisor(state: TeamState) -> dict:
     """The Supervisor analyzes the state and directs the next worker agent."""
-    print("👑 [Supervisor] Analyzing team progress...")
+    print("[Supervisor] Analyzing team progress...")
     task = state["task"]
     research = state["research_data"]
     code = state["code_solution"]
@@ -59,13 +59,13 @@ def run_supervisor(state: TeamState) -> dict:
     if not api_key:
         # Mock supervisor decision logic for local offline run
         if not research:
-            print("   [Decision] Needs research ──> delegating to Researcher")
+            print("[Decision] Needs research ──> delegating to Researcher")
             return {"next_step": "researcher"}
         elif not code:
-            print("   [Decision] Needs implementation ──> delegating to Coder")
+            print("[Decision] Needs implementation ──> delegating to Coder")
             return {"next_step": "coder"}
         else:
-            print("   [Decision] Sub-tasks complete ──> compiling final report")
+            print("[Decision] Sub-tasks complete ──> compiling final report")
             return {"next_step": "compile_report"}
 
     # Real LLM-based supervisor routing using google-genai
@@ -74,12 +74,9 @@ def run_supervisor(state: TeamState) -> dict:
         client = genai.Client()
         
         prompt = f"""You are the Supervisor of an AI Agent Team.
-Your job is to solve this user task: "{task}"
-Here is what the team has done so far:
+Your job is to solve this user task: "{task}"Here is what the team has done so far:
 - Research Data gathered: "{research}"
-- Code Solution drafted: "{code}"
-
-Choose the NEXT step for the team:
+- Code Solution drafted: "{code}"Choose the NEXT step for the team:
 - If we do not have research data yet, output: "NEXT: researcher"
 - If we have research data but no code solution yet, output: "NEXT: coder"
 - If we have both, output: "NEXT: compile_report"
@@ -98,7 +95,7 @@ Choose the NEXT step for the team:
             return {"next_step": "compile_report"}
             
     except Exception as e:
-        print(f"⚠️ Error calling supervisor model ({str(e)}). Using local rule engine.")
+        print(f"Error calling supervisor model ({str(e)}). Using local rule engine.")
         # Fallback to local rule logic
         if not research: return {"next_step": "researcher"}
         elif not code: return {"next_step": "coder"}
@@ -110,7 +107,7 @@ Choose the NEXT step for the team:
 
 def run_multi_agent_team(task_query: str):
     print("=" * 70)
-    print(f"🚀 Initializing Supervisor Multi-Agent Team with task:\n   '{task_query}'")
+    print(f"Initializing Supervisor Multi-Agent Team with task:\n   '{task_query}'")
     print("=" * 70)
     
     state: TeamState = {
@@ -133,15 +130,15 @@ def run_multi_agent_team(task_query: str):
         if state["next_step"] == "researcher":
             result = run_researcher_agent(state["task"])
             state["research_data"] = result
-            print(f"   [Researcher Output] {result}")
+            print(f"[Researcher Output] {result}")
             
         elif state["next_step"] == "coder":
             result = run_coder_agent(state["task"], state["research_data"])
             state["code_solution"] = result
-            print(f"   [Coder Output]\n{result}")
+            print(f"[Coder Output]\n{result}")
             
         elif state["next_step"] == "compile_report":
-            print("👑 [Supervisor] Compiling final project report...")
+            print("[Supervisor] Compiling final project report...")
             state["final_report"] = (
                 f"### Final Project Report\n"
                 f"User Goal: {state['task']}\n\n"
@@ -151,7 +148,7 @@ def run_multi_agent_team(task_query: str):
             )
             break
             
-    print("\n🎉 Multi-Agent Collaboration Finished!")
+    print("\n Multi-Agent Collaboration Finished!")
     print(state["final_report"])
     print("=" * 70)
 

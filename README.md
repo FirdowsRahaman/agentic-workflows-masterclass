@@ -3,14 +3,17 @@
 <div align="center">
   <p><em>The engineering guide to stateful, autonomous, and multi-agent architectures in production.</em></p>
   
-  <a href="https://www.python.org"><img src="https://img.shields.io/badge/Python-3.13+-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
-  <a href="https://www.docker.com"><img src="https://img.shields.io/badge/Sandbox-Docker-blue?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a>
-  <a href="https://github.com/langchain-ai/langgraph"><img src="https://img.shields.io/badge/Framework-LangGraph-purple?style=for-the-badge" alt="LangGraph"></a>
-  <a href="https://github.com/google/generative-ai-python"><img src="https://img.shields.io/badge/SDK-Google%20GenAI-blue?style=for-the-badge" alt="Google GenAI"></a>
-  <a href="https://github.com/Arize-AI/phoenix"><img src="https://img.shields.io/badge/Observability-Phoenix-orange?style=for-the-badge" alt="Phoenix"></a>
-  <a href="EU_AI_ACT_TECHNICAL_DOCUMENTATION.md"><img src="https://img.shields.io/badge/EU%20AI%20Act-Annex%20IV%20Compliant-10B981?style=for-the-badge" alt="EU AI Act"></a>
+  <a href="https://www.python.org"><img src="https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
+  <a href="https://github.com/langchain-ai/langgraph"><img src="https://img.shields.io/badge/LangGraph-Stateful_Graphs-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white" alt="LangGraph"></a>
+  <a href="https://weaviate.io"><img src="https://img.shields.io/badge/Weaviate-Vector_Memory-00D2B4?style=for-the-badge&logo=weaviate&logoColor=white" alt="Weaviate"></a>
+  <a href="https://pola.rs"><img src="https://img.shields.io/badge/Polars-Arrow_SIMD-CD792C?style=for-the-badge&logo=polars&logoColor=white" alt="Polars"></a>
+  <a href="https://www.anthropic.com"><img src="https://img.shields.io/badge/Claude-Context_Caching-D97706?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude"></a>
+  <a href="https://www.docker.com"><img src="https://img.shields.io/badge/Docker-Isolated_Sandbox-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker"></a>
+  <a href="https://aws.amazon.com"><img src="https://img.shields.io/badge/AWS-eu--central--1-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS"></a>
+  <a href="https://cloud.google.com"><img src="https://img.shields.io/badge/GCP-europe--west4-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white" alt="GCP"></a>
+  <a href="EU_AI_ACT_TECHNICAL_DOCUMENTATION.md"><img src="https://img.shields.io/badge/EU_AI_Act-Annex_IV_Compliant-10B981?style=for-the-badge" alt="EU AI Act"></a>
   <a href="docs/adr/"><img src="https://img.shields.io/badge/Architecture-ADRs-8B5CF6?style=for-the-badge" alt="ADRs"></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"></a>
 </div>
 
 <br/>
@@ -27,7 +30,7 @@ This repository provides reference architectures, implementation labs, and capst
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 - [The Production Agent Gap](#the-production-agent-gap)
 - [Architectural Paradigm Matrix](#architectural-paradigm-matrix)
 - [Prerequisites & Environment Setup](#prerequisites--environment-setup)
@@ -45,7 +48,7 @@ This repository provides reference architectures, implementation labs, and capst
 
 ---
 
-## 🏗️ The Production Agent Gap
+## The Production Agent Gap
 
 Modern AI engineering requires a transition from stateless prompting to stateful cyclic workflows and specialized multi-agent teams. 
 
@@ -60,7 +63,7 @@ By adding a stateful planning loop, persistent memory checkpointers, and isolate
 
 ---
 
-## 📊 Architectural Paradigm Matrix
+## Architectural Paradigm Matrix
 
 | Paradigm | Primary Limitation | State Scope | Concurrency Safety | Cost Profile | Production Reliability |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -71,13 +74,13 @@ By adding a stateful planning loop, persistent memory checkpointers, and isolate
 
 ---
 
-## 💻 Prerequisites & Environment Setup
+## Prerequisites & Environment Setup
 
 To run the labs and capstone projects, your development environment must satisfy:
 
-*   **Python 3.13+** (leveraging modern typing and async primitives)
-*   **Docker Desktop** (required for sandbox execution labs and project containment)
-*   **LLM Provider API Keys**: Google Gemini (via `GEMINI_API_KEY`), Anthropic (via `ANTHROPIC_API_KEY`), OpenAI (via `OPENAI_API_KEY`)
+* **Python 3.13+** (leveraging modern typing and async primitives)
+* **Docker Desktop** (required for sandbox execution labs and project containment)
+* **LLM Provider API Keys**: Google Gemini (via `GEMINI_API_KEY`), Anthropic (via `ANTHROPIC_API_KEY`), OpenAI (via `OPENAI_API_KEY`)
 
 ### Quick Start
 ```bash
@@ -98,25 +101,25 @@ python agent.py
 
 ---
 
-## 📚 Course Curriculum
+## Course Curriculum
 
 This repository follows a **theory-first, implementation-focused** learning path.
 
 
-### 📖 Theory: Chapters
+### Theory: Chapters
 *Deep dive into architectural patterns, mathematical mechanics, and engineering design.*
 
-- 📍 **Level 1: Foundations of Agentic Reasoning**
+- **Level 1: Foundations of Agentic Reasoning**
   - [Chapter 1: Defining the Agent Paradigm](chapters/01-defining-the-agent/README.md) — Autonomy boundaries, agentic loops, and context constraints.
   - [Chapter 2: Moving Beyond Static RAG](chapters/02-moving-beyond-rag/README.md) — Resolving retrieval failure modes via active retrieval loops.
   - [Chapter 3: Cognitive Design Patterns](chapters/03-cognitive-patterns/README.md) — Plan-and-Execute, ReAct, and Self-Reflection frameworks.
   - [Chapter 4: Tool Use & Stateless Core](chapters/04-tool-use/README.md) — Structured tool output, timeout handles, and error recovery loops.
-- 🏗️ **Level 2: Advanced Orchestration Frameworks**
+- **Level 2: Advanced Orchestration Frameworks**
   - [Chapter 5: Stateful Agent Workflows](chapters/05-stateful-workflows/README.md) — Cyclic state graphs, node transitions, and thread checkpointers.
   - [Chapter 6: Multi-Agent Collaboration Patterns](chapters/06-multi-agent-collaboration/README.md) — Supervisor routing, peer-to-peer choreography, and state boundaries.
   - [Chapter 7: Human-in-the-Loop (HITL)](chapters/07-human-in-the-loop/README.md) — Interrupt conditions, manual state overrides, and time-travel debugging.
   - [Chapter 8: Persistent Memory & Context Management](chapters/08-persistent-memory/README.md) — Episodic vs. semantic memory, associative indexing, and GraphRAG.
-- 🏛️ **Level 3: Enterprise-Grade AgentOps**
+- **Level 3: Enterprise-Grade AgentOps**
   - [Chapter 9: Agent Guardrails & Security](chapters/09-guardrails-security/README.md) — Prompt injection defense, PII scrubbing, and sandboxed execution rules.
   - [Chapter 10: Observability & Tracing](chapters/10-observability-tracing/README.md) — Telemetry tracing, span collection, and path auditing (Phoenix/LangSmith).
   - [Chapter 11: Evaluation Pipelines](chapters/11-evaluation-pipelines/README.md) — LLM-as-a-judge patterns, golden evaluation datasets, and deterministic assertions.
@@ -124,47 +127,47 @@ This repository follows a **theory-first, implementation-focused** learning path
   - [Chapter 13: Context Caching & KV-Cache Optimization](chapters/13-context-caching/README.md) — KV attention math, prefix matching constraints, and token billing economics.
   - [Chapter 14: The Future of Agents](chapters/14-future-of-agents/README.md) — Vision/voice loops, local runtimes (Ollama/SLMs), and desktop-automation environments.
 
-### 🔬 Practice: Labs
+### Practice: Labs
 *Implement core components from scratch to master the low-level mechanics.*
 
-- 🧪 **[Lab 1: The Vanilla ReAct Loop](labs/lab-01-vanilla-react/README.md)** — Implement a complete planning, tool execution, and self-reflection loop in pure Python without framework wrappers.
-- 🧪 **[Lab 2: Stateful LangGraph](labs/lab-02-stateful-langgraph/README.md)** — Design cyclic state graphs with node updates, state mergers, and thread-level state restoration.
-- 🧪 **[Lab 3: Supervisor Team](labs/lab-03-supervisor-team/README.md)** — Implement a supervisor router that coordinates task delegation, output aggregation, and worker control loops.
-- 🧪 **[Lab 4: Human Interruption](labs/lab-04-human-interruption/README.md)** — Pause state graphs before high-risk operations to allow manual validation and state modifications.
-- 🧪 **[Lab 5: Dual-Core Memory Engine](labs/lab-05-memory-engine/README.md)** — Build a memory manager coordinating short-term conversational threads alongside long-term semantic embeddings in SQLite.
-- 🧪 **[Lab 6: Evals Pipeline](labs/lab-06-evals-pipeline/README.md)** — Configure automated evaluation suites that run test assertions and compute similarity/completeness scores via LLM judges.
-- 🧪 **[Lab 7: Corrective RAG (CRAG) Engine](labs/lab-07-agentic-rag/README.md)** — Build an advanced RAG pipeline with document grading, query expansion, and web search fallback routes.
-- 🧪 **[Lab 8: Collaborative Agents with Google ADK](labs/lab-08-google-adk/README.md)** — Orchestrate sequential collaborative workflows using Google's Agent Development Kit, exposing custom tools and native MCP server interfaces.
-- 🧪 **[Lab 9: Sovereign European Agent with Mistral AI & vLLM](labs/lab-09-mistral-sovereign-agent/README.md)** — Build a GDPR-compliant autonomous agent using Mistral Large / Codestral with private vLLM sovereign inference and zero data egress.
+- <img src="https://img.shields.io/badge/Lab_01-0284C7?style=flat-square" alt="Lab 01"/> **[The Vanilla ReAct Loop](labs/lab-01-vanilla-react/README.md)** — Implement a complete planning, tool execution, and self-reflection loop in pure Python without framework wrappers.
+- <img src="https://img.shields.io/badge/Lab_02-0284C7?style=flat-square" alt="Lab 02"/> **[Stateful LangGraph](labs/lab-02-stateful-langgraph/README.md)** — Design cyclic state graphs with node updates, state mergers, and thread-level state restoration.
+- <img src="https://img.shields.io/badge/Lab_03-0284C7?style=flat-square" alt="Lab 03"/> **[Supervisor Team](labs/lab-03-supervisor-team/README.md)** — Implement a supervisor router that coordinates task delegation, output aggregation, and worker control loops.
+- <img src="https://img.shields.io/badge/Lab_04-0284C7?style=flat-square" alt="Lab 04"/> **[Human Interruption](labs/lab-04-human-interruption/README.md)** — Pause state graphs before high-risk operations to allow manual validation and state modifications.
+- <img src="https://img.shields.io/badge/Lab_05-0284C7?style=flat-square" alt="Lab 05"/> **[Dual-Core Memory Engine](labs/lab-05-memory-engine/README.md)** — Build a memory manager coordinating short-term conversational threads alongside long-term semantic embeddings in SQLite.
+- <img src="https://img.shields.io/badge/Lab_06-0284C7?style=flat-square" alt="Lab 06"/> **[Evals Pipeline](labs/lab-06-evals-pipeline/README.md)** — Configure automated evaluation suites that run test assertions and compute similarity/completeness scores via LLM judges.
+- <img src="https://img.shields.io/badge/Lab_07-0284C7?style=flat-square" alt="Lab 07"/> **[Corrective RAG (CRAG) Engine](labs/lab-07-agentic-rag/README.md)** — Build an advanced RAG pipeline with document grading, query expansion, and web search fallback routes.
+- <img src="https://img.shields.io/badge/Lab_08-0284C7?style=flat-square" alt="Lab 08"/> **[Collaborative Agents with Google ADK](labs/lab-08-google-adk/README.md)** — Orchestrate sequential collaborative workflows using Google's Agent Development Kit, exposing custom tools and native MCP server interfaces.
+- <img src="https://img.shields.io/badge/Lab_09-0284C7?style=flat-square" alt="Lab 09"/> **[Sovereign European Agent with Mistral AI & vLLM](labs/lab-09-mistral-sovereign-agent/README.md)** — Build a GDPR-compliant autonomous agent using Mistral Large / Codestral with private vLLM sovereign inference and zero data egress.
 
-### ⚡ Production Recipes
+### Production Recipes
 *End-to-end performance and infrastructure patterns combining state-of-the-art tools.*
 
-- ⚡ **[Weaviate + Polars + Claude Context Caching](recipes/weaviate-polars-claude-caching/README.md)** — High-throughput columnar preprocessing (Polars Arrow SIMD), isolated vector memory (Weaviate v4 hybrid search), and 90% cost-reduced Claude prompt context caching, deployed via AWS CloudFormation in `eu-central-1` (Frankfurt) or GCP Cloud Run in `europe-west4` (Netherlands).
+- <img src="https://img.shields.io/badge/Recipe_01-7C3AED?style=flat-square" alt="Recipe 01"/> **[Weaviate + Polars + Claude Context Caching](recipes/weaviate-polars-claude-caching/README.md)** — High-throughput columnar preprocessing (Polars Arrow SIMD), isolated vector memory (Weaviate v4 hybrid search), and 90% cost-reduced Claude prompt context caching, deployed via AWS CloudFormation in `eu-central-1` (Frankfurt) or GCP Cloud Run in `europe-west4` (Netherlands).
 
-### 🏆 Mastery: Capstone Projects
+### Mastery: Capstone Projects
 *Deploy production-ready solutions modeled after enterprise workloads.*
 
-*   💻 **[Autonomous Sandbox Dev Team](projects/project-01-sandbox-dev-team/README.md)**: Build PM, Coder, and QA Tester agents that collaborate, write python scripts, and run automated unit tests inside secure, isolated Docker sandboxes.
-*   🏥 **[Clinical Support Agent with HITL](projects/project-02-clinical-agent/README.md)**: Deploy a clinical triage assistant with clinical guidelines RAG, safety policy guardrails, and human escalation checkpoints.
-*   📊 **[Collaborative Market Research Engine](projects/project-03-market-research/README.md)**: Build a multi-agent data aggregator, research compiler, and Neo4j GraphRAG explorer that builds structured reports from unstructured documents.
-*   🛡️ **[Compliance & Risk Auditor](projects/project-04-compliance-auditor/README.md)**: Architect a regulatory compliance engine that audits PDF financial files, validates outputs against strict Pydantic schemas, and triggers safety filters via Guardrails AI.
+- <img src="https://img.shields.io/badge/Capstone_01-B45309?style=flat-square" alt="Capstone 01"/> **[Autonomous Sandbox Dev Team](projects/project-01-sandbox-dev-team/README.md)**: Build PM, Coder, and QA Tester agents that collaborate, write python scripts, and run automated unit tests inside secure, isolated Docker sandboxes.
+- <img src="https://img.shields.io/badge/Capstone_02-B45309?style=flat-square" alt="Capstone 02"/> **[Clinical Support Agent with HITL](projects/project-02-clinical-agent/README.md)**: Deploy a clinical triage assistant with clinical guidelines RAG, safety policy guardrails, and human escalation checkpoints.
+- <img src="https://img.shields.io/badge/Capstone_03-B45309?style=flat-square" alt="Capstone 03"/> **[Collaborative Market Research Engine](projects/project-03-market-research/README.md)**: Build a multi-agent data aggregator, research compiler, and Neo4j GraphRAG explorer that builds structured reports from unstructured documents.
+- <img src="https://img.shields.io/badge/Capstone_04-B45309?style=flat-square" alt="Capstone 04"/> **[Compliance & Risk Auditor](projects/project-04-compliance-auditor/README.md)**: Architect a regulatory compliance engine that audits PDF financial files, validates outputs against strict Pydantic schemas, and triggers safety filters via Guardrails AI.
 
 ---
 
-## 🤝 Enterprise Tooling Stack
+## Enterprise Tooling Stack
 
-*   **[Agent Development Kit (ADK)](https://adk.dev)**: Google's open-source framework for building multi-agent systems and workflows.
-*   **[LangGraph](https://github.com/langchain-ai/langgraph)**: Stateful orchestration library of choice for complex state management.
-*   **[Weaviate](https://weaviate.io)**: Enterprise-grade open-source vector database supporting hybrid search and multi-tenancy.
-*   **[Polars](https://pola.rs)**: Lightning-fast DataFrame library written in Rust for parallel SIMD data preparation.
-*   **[Anthropic Claude](https://anthropic.com)**: State-of-the-art frontier model with ephemeral prompt context caching.
-*   **[GenAI SDK](https://github.com/google/generative-ai-python)**: Official library for Google Gemini models.
-*   **[Phoenix](https://github.com/Arize-AI/phoenix)**: AI observability and tracing platform.
+* **[Agent Development Kit (ADK)](https://adk.dev)**: Google's open-source framework for building multi-agent systems and workflows.
+* **[LangGraph](https://github.com/langchain-ai/langgraph)**: Stateful orchestration library of choice for complex state management.
+* **[Weaviate](https://weaviate.io)**: Enterprise-grade open-source vector database supporting hybrid search and multi-tenancy.
+* **[Polars](https://pola.rs)**: Lightning-fast DataFrame library written in Rust for parallel SIMD data preparation.
+* **[Anthropic Claude](https://anthropic.com)**: State-of-the-art frontier model with ephemeral prompt context caching.
+* **[GenAI SDK](https://github.com/google/generative-ai-python)**: Official library for Google Gemini models.
+* **[Phoenix](https://github.com/Arize-AI/phoenix)**: AI observability and tracing platform.
 
 ---
 
-## 🛠️ Contributing
+## Contributing
 
 We welcome contributions!
 1. Fork the repo and create your feature branch (`git checkout -b feature/AmazingFeature`).
@@ -174,7 +177,7 @@ We welcome contributions!
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the MIT License. See `LICENSE` for details.
 

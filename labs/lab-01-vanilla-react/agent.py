@@ -12,7 +12,7 @@ load_dotenv()
 
 def get_weather(location: str) -> str:
     """Fetches the current weather for a given city location."""
-    print(f"   [Tool Executing] get_weather('{location}')...")
+    print(f"[Tool Executing] get_weather('{location}')...")
     loc = location.lower().strip()
     if "san francisco" in loc:
         return "65°F, Partly Cloudy, 12mph Wind"
@@ -25,7 +25,7 @@ def get_weather(location: str) -> str:
 
 def calculate_tax(price: float, state: str) -> str:
     """Calculates sales tax based on price and a 2-letter US state code."""
-    print(f"   [Tool Executing] calculate_tax({price}, '{state}')...")
+    print(f"[Tool Executing] calculate_tax({price}, '{state}')...")
     st = state.upper().strip()
     rates = {"CA": 0.0825, "NY": 0.08875, "TX": 0.0625}
     rate = rates.get(st, 0.05)  # Default 5%
@@ -126,7 +126,7 @@ class MockGeminiClient:
 
 def run_react_agent(query: str):
     print("=" * 70)
-    print(f"🚀 User Query: '{query}'")
+    print(f"User Query: '{query}'")
     print("=" * 70)
     
     # Check for actual API key
@@ -139,11 +139,11 @@ def run_react_agent(query: str):
             from google import genai
             llm_client = genai.Client()
             use_mock = False
-            print("🤖 Using Live Gemini API for ReAct reasoning...")
+            print("Using Live Gemini API for ReAct reasoning...")
         except ImportError:
-            print("⚠️ 'google-genai' SDK not installed. Falling back to Mock Agent...")
+            print(" 'google-genai'SDK not installed. Falling back to Mock Agent...")
     else:
-        print("ℹ️ GEMINI_API_KEY not found in environment. Running in MOCK Mode...")
+        print("ℹ GEMINI_API_KEY not found in environment. Running in MOCK Mode...")
         llm_client = MockGeminiClient(query)
 
     # Initialize conversation history with the system prompt
@@ -171,9 +171,9 @@ def run_react_agent(query: str):
         
         # 2. Check for Final Answer
         if "Final Answer:" in response_text:
-            print("\n🎉 Mission Accomplished!")
+            print("\n Mission Accomplished!")
             final_answer = response_text.split("Final Answer:")[-1].strip()
-            print(f"👉 Result: {final_answer}\n")
+            print(f"Result: {final_answer}\n")
             break
             
         # 3. Parse tool action call
@@ -202,14 +202,14 @@ def run_react_agent(query: str):
             else:
                 observation = f"Error: Tool '{tool_name}' is not in the tool registry."
                 
-            print(f"   [Observation] {observation}")
+            print(f"[Observation] {observation}")
             # Feed observation back into history for next turn
             history += f"Observation: {observation}\n"
         else:
-            print("⚠️ Error: LLM response did not contain a valid Action or Final Answer. Terminating loop.")
+            print("Error: LLM response did not contain a valid Action or Final Answer. Terminating loop.")
             break
     else:
-        print("\n❌ Terminated: Exceeded maximum plan iterations.")
+        print("\n Terminated: Exceeded maximum plan iterations.")
 
 if __name__ == "__main__":
     # Test queries

@@ -29,8 +29,8 @@ class AuditState(TypedDict):
 
 def trigger_corrective_action(violated_clauses: list[str]) -> str:
     """Executes corrective business logic once compliance threshold is violated."""
-    print("⚠️ [Action Executor] COMPLIANCE VIOLATION CRITICAL WARNING")
-    print(f"   Drafting warning memo for violated clauses: {violated_clauses}...")
+    print("[Action Executor] COMPLIANCE VIOLATION CRITICAL WARNING")
+    print(f"Drafting warning memo for violated clauses: {violated_clauses}...")
     memo = (
         f"MEMORANDUM: Compliance Audit Failure Notice\n"
         f"To: Department Operations Manager\n"
@@ -48,13 +48,13 @@ def trigger_corrective_action(violated_clauses: list[str]) -> str:
 
 def run_compliance_audit_node(state: AuditState) -> dict:
     """Evaluates the report text and outputs structured audit details matching Pydantic."""
-    print("🤖 [Node: run_compliance_audit_node] Analyzing document text...")
+    print("[Node: run_compliance_audit_node] Analyzing document text...")
     report = state["report_text"]
     
     # Use API key if available
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        print("ℹ️ Model running in Mock Mode...")
+        print("ℹ Model running in Mock Mode...")
         # Simulated structured evaluation
         score = 72.5
         clauses = ["Data Privacy Law (GDPR) Section 4", "Clean Desk Policy Clause 12"]
@@ -76,9 +76,7 @@ def run_compliance_audit_node(state: AuditState) -> dict:
         
         prompt = f"""You are a Compliance & Risk Auditor Agent.
 Analyze this corporate report for compliance violations:
-"{report}"
-
-Grade the compliance score (out of 100). Identify any violated policies and recommend fixes.
+"{report}"Grade the compliance score (out of 100). Identify any violated policies and recommend fixes.
 """
         response = client.models.generate_content(
             model='gemini-2.5-flash',
@@ -93,7 +91,7 @@ Grade the compliance score (out of 100). Identify any violated policies and reco
         audit = ComplianceSchema.model_validate_json(response.text)
         return {"audit_data": audit, "status": "audit_complete"}
     except Exception as e:
-        print(f"⚠️ Error during structured model run: {str(e)}")
+        print(f"Error during structured model run: {str(e)}")
         # Local fallback
         audit = ComplianceSchema(
             compliance_score=95.0,
@@ -109,7 +107,7 @@ Grade the compliance score (out of 100). Identify any violated policies and reco
 
 def run_compliance_pipeline(report_text: str):
     print("=" * 70)
-    print("🚀 Initializing Corporate Compliance & Risk Auditor Pipeline...")
+    print("Initializing Corporate Compliance & Risk Auditor Pipeline...")
     print("=" * 70)
     
     # 1. Initialize State
@@ -125,7 +123,7 @@ def run_compliance_pipeline(report_text: str):
     state.update(updates)
     
     audit = state["audit_data"]
-    print(f"\n📊 Audit Results Compiled:")
+    print(f"\n Audit Results Compiled:")
     print(f"   - Compliance Score: {audit.compliance_score:.1f}%")
     print(f"   - Violations:       {audit.violated_clauses}")
     print(f"   - Recommended Fixes: {audit.recommended_fixes}")
@@ -140,7 +138,7 @@ def run_compliance_pipeline(report_text: str):
         state["status"] = "clean_compliance_record"
         print("🟢 No compliance violations found. Record remains clean.")
         
-    print(f"\n🎉 Compliance Auditor finished! Final Status: {state['status'].upper()}\n")
+    print(f"\n Compliance Auditor finished! Final Status: {state['status'].upper()}\n")
     print("=" * 70)
 
 if __name__ == "__main__":

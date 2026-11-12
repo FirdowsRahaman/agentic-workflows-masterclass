@@ -1,22 +1,22 @@
-# Lab 5: Dual-Core Memory Engine 🧠
+# Lab 5: Dual-Core Memory Engine 
 
 Welcome to Lab 5! In this lab, we build a **Dual-Core Memory Engine** combining Episodic (conversational thread logs) and Semantic (long-term facts stored in vector database keys) memories. You will learn how memory is queried at session start, and how new memories are extracted and saved using a write-behind pipeline.
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 - Architect the division of labor between Episodic and Semantic memory systems.
 - Query a vector-based database layer to inject context before generating LLM prompts.
 - Implement a **Write-Behind** pipeline to analyze conversation logs and extract persistent user facts.
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The Python script containing the episodic mock database, semantic database simulation, retrieval nodes, and write-behind extractor.
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
 ### 1. Dual-Core Memory Workflow
 ```mermaid
@@ -34,7 +34,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 ### Run instructions
 Navigate to the lab directory:

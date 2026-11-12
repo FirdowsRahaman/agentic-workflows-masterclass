@@ -1,10 +1,10 @@
-# Lab 8: Collaborative Agents with Google ADK 👥
+# Lab 8: Collaborative Agents with Google ADK 
 
 Welcome to Lab 8! In this lab, we build a collaborative, multi-agent system using the **Google Agent Development Kit (ADK)**. You will learn how to define specialized agents, write reusable Python tool functions, and choreograph them in a sequential team workflow.
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 - Install and configure the **Google ADK** Python library.
 - Define custom agent capabilities using modular Python **Tools** with clear docstring metadata.
 - Instantiate specialized **Agents** containing targeted instructions and capabilities.
@@ -13,7 +13,7 @@ Welcome to Lab 8! In this lab, we build a collaborative, multi-agent system usin
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
 ### 1. Collaborative Sequential Pipeline
 In this lab, we model a digital writing team containing a Researcher and a Writer. They collaborate to create a competitor analysis report:
@@ -31,7 +31,7 @@ graph LR
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 ### Run instructions
 Navigate to the lab directory:

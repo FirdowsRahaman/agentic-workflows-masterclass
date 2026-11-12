@@ -1,10 +1,10 @@
-# Chapter 8: Persistent Memory & Context Management 🧠
+# Chapter 8: Persistent Memory & Context Management 
 
 In this chapter, we explore agent memory. We will analyze the different types of memory (Episodic, Semantic, Procedural), study context management strategies to prevent prompt bloat, and explore how GraphRAG structures entity relationships to give agents human-like associative recall.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [The Agent Memory Architecture](#the-agent-memory-architecture)
 - [Episodic Memory (Conversational History)](#episodic-memory-conversational-history)
 - [Semantic Memory (Long-term Facts & Entities)](#semantic-memory-long-term-facts--entities)
@@ -15,7 +15,7 @@ In this chapter, we explore agent memory. We will analyze the different types of
 
 ---
 
-## 🧠 The Agent Memory Architecture
+## The Agent Memory Architecture
 
 A raw LLM has no memory. If you ask it a question in a new session, it does not know who you are or what you discussed five minutes ago. To build intelligent systems, agents utilize three distinct memory layers:
 
@@ -32,7 +32,7 @@ graph TD
 
 ---
 
-## 💬 Episodic Memory (Conversational History)
+## Episodic Memory (Conversational History)
 
 **Episodic memory** stores the sequential list of interactions (messages) within a single conversation thread.
 
@@ -44,7 +44,7 @@ graph TD
 
 ---
 
-## 🗄️ Semantic Memory (Long-term Facts & Entities)
+## Semantic Memory (Long-term Facts & Entities)
 
 **Semantic memory** stores facts, preferences, and entities across conversations.
 
@@ -57,7 +57,7 @@ graph TD
 
 ---
 
-## 📜 Procedural Memory (System Instructions & Rules)
+## Procedural Memory (System Instructions & Rules)
 
 **Procedural memory** contains the static rules, schemas, guidelines, and behavioral instructions that define *how* the agent operates.
 
@@ -66,7 +66,7 @@ graph TD
 
 ---
 
-## 🕸️ GraphRAG: Associative Memory
+## GraphRAG: Associative Memory
 
 Standard vector search retrieves isolated text fragments. It cannot perform associative recall (linking concepts). **GraphRAG** builds a knowledge graph containing **Entities** (nodes) and **Relationships** (edges).
 
@@ -84,7 +84,7 @@ graph LR
 
 ---
 
-## 🇪🇺 GDPR Compliance: Article 17 "Right to Erasure" in Agent Memory
+## GDPR Compliance: Article 17 "Right to Erasure" in Agent Memory
 
 When autonomous agents maintain long-term memory across vector databases, semantic caches, and session checkpointers, they fall under the strict scope of **GDPR (Regulation (EU) 2016/679)**. Under **Article 17 (Right to be Forgotten)**, users have the legal right to request the complete deletion of their personal data.
 
@@ -132,7 +132,7 @@ def purge_gdpr_user_memory(user_id: str, checkpointer, vector_store, graph_db) -
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **Episodic memory** tracks conversation history; manage it using message windowing or background summarization.
 - **Semantic memory** extracts facts during runtime and stores them in vector databases for long-term recall.
@@ -141,5 +141,5 @@ def purge_gdpr_user_memory(user_id: str, checkpointer, vector_store, graph_db) -
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 We have completed **Level 2**! In **[Chapter 9: Agent Guardrails & Security](../09-guardrails-security/README.md)**, we cross into **Level 3** and focus on securing our agents from jailbreaks, prompt injection, and output violations.

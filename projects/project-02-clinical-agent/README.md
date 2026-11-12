@@ -1,10 +1,10 @@
-# Capstone Project 2: Clinical Support Agent with HITL 🏥
+# Capstone Project 2: Clinical Support Agent with HITL 
 
 Welcome to Capstone Project 2! In this project, we implement a production-grade **Clinical Support Agent** with input safety filtering (simulating LlamaGuard), guidelines retrieval, autonomous report drafting, and a strict human-in-the-loop (HITL) breakpoint requiring doctor validation before writing records to the Electronic Health Record (EHR) database.
 
 ---
 
-## 🎯 Project Goal
+## Project Goal
 Ensure clinical safety and validation boundaries. The agent workflow contains:
 1. **Safety Filter**: Evaluates patient symptom descriptions to ensure no harmful directives or toxic commands bypass the prompt.
 2. **Guideline Retriever**: Pulls matching clinical procedures and treatments from a mock medical vector database.
@@ -14,12 +14,12 @@ Ensure clinical safety and validation boundaries. The agent workflow contains:
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The clinical support agent file containing safety guards, retrieval methods, and physician approval console checks.
 
 ---
 
-## ⚙️ Workflow Architecture
+## Workflow Architecture
 
 ```mermaid
 graph TD
@@ -34,7 +34,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Project
+## Running the Project
 
 ### Run instructions
 Navigate to the project directory:

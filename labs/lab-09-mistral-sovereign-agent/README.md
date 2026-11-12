@@ -1,10 +1,10 @@
-# Lab 9: Sovereign European Agent with Mistral AI & vLLM 🇪🇺
+# Lab 9: Sovereign European Agent with Mistral AI & vLLM 
 
 This hands-on lab demonstrates how to build a production-grade autonomous agent using **Mistral AI** foundation models (`Mistral Large` / `Codestral`) and private **vLLM** sovereign inference endpoints, designed to satisfy European Union data residency and GDPR compliance requirements.
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 
 1. Configure Mistral AI models (`mistral-large-latest`, `codestral-latest`) using official APIs or local `vLLM` sovereign clusters.
 2. Implement strict zero-data-retention routing where prompt data never leaves the European Union (`eu-central-1` / `eu-west-1`).
@@ -13,7 +13,7 @@ This hands-on lab demonstrates how to build a production-grade autonomous agent 
 
 ---
 
-## 🛠️ Architecture
+## Architecture
 
 ```
 User Prompt ──▶ [GDPR PII Masking Gateway]
@@ -36,7 +36,7 @@ User Prompt ──▶ [GDPR PII Masking Gateway]
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 1. Ensure your `.env` contains your Mistral API key (or local vLLM URL):
    ```bash

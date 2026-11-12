@@ -1,10 +1,10 @@
-# Chapter 7: Human-in-the-Loop (HITL) 👤
+# Chapter 7: Human-in-the-Loop (HITL) 
 
 In this chapter, we explore Human-in-the-Loop (HITL) patterns. We will analyze why human oversight is critical for enterprise agents, and implement patterns to pause agent execution, stream intermediate state graphs, and capture human approval or state modifications before resuming execution.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [Why Human-in-the-Loop?](#why-human-in-the-loop)
 - [HITL Interaction Patterns](#hitl-interaction-patterns)
 - [How State Pausing Works: Breakpoints](#how-state-pausing-works-breakpoints)
@@ -14,7 +14,7 @@ In this chapter, we explore Human-in-the-Loop (HITL) patterns. We will analyze w
 
 ---
 
-## 🛡️ Why Human-in-the-Loop?
+## Why Human-in-the-Loop?
 
 While autonomous agents are powerful, they should not be given unchecked control in high-risk environments. 
 
@@ -25,7 +25,7 @@ Production applications require human verification for several reasons:
 
 ---
 
-## 🔄 HITL Interaction Patterns
+## HITL Interaction Patterns
 
 There are three primary models of human interaction within agent graphs:
 
@@ -63,7 +63,7 @@ graph TD
 
 ---
 
-## ⏸️ How State Pausing Works: Breakpoints
+## ⏸ How State Pausing Works: Breakpoints
 
 To implement HITL, stateful graphs use **Breakpoints**. You declare which nodes or edges require human input:
 
@@ -114,7 +114,7 @@ If an agent goes down an incorrect reasoning path at Checkpoint 3, the developer
 
 ---
 
-## 🇪🇺 EU AI Act Compliance: Article 14 Human Oversight
+## EU AI Act Compliance: Article 14 Human Oversight
 
 Under Regulation (EU) 2024/1689 (EU AI Act), **Article 14** mandates that High-Risk AI Systems must be designed with operational Human-in-the-Loop (HITL) interfaces to ensure natural persons can effectively oversee their operation.
 
@@ -130,7 +130,7 @@ Under Regulation (EU) 2024/1689 (EU AI Act), **Article 14** mandates that High-R
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **Human-in-the-Loop** patterns provide safety, quality control, and escape hatches for autonomous systems.
 - **Breakpoints** pause graphs before or after specific nodes, saving the current state to the database checkpointer.
@@ -139,5 +139,5 @@ Under Regulation (EU) 2024/1689 (EU AI Act), **Article 14** mandates that High-R
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 8: Persistent Memory & Context Management](../08-persistent-memory/README.md)**, we will look at how to store, query, and structure context across conversations using vector databases, entities, and GraphRAG.

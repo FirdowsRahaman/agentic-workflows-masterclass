@@ -1,4 +1,4 @@
-# Chapter 14: The Future of Agents 🚀
+# Chapter 14: The Future of Agents 
 
 In this final chapter, we explore the cutting-edge horizon of agentic systems. We will analyze Multimodal Agent loops, study how to run lightweight agents locally on-device, and examine the mechanics of web-navigating ("computer use") agents that control browsers and desktop environments directly.
 
@@ -12,7 +12,7 @@ In this final chapter, we explore the cutting-edge horizon of agentic systems. W
 
 ---
 
-## 👁️ Multimodal Agent Loops (Vision & Voice)
+## Multimodal Agent Loops (Vision & Voice)
 
 Early agents were text-only. The next generation of agents integrates Vision and Voice models directly into the planning loop.
 
@@ -32,7 +32,7 @@ With models supporting low-latency audio input/output, agents process spoken com
 
 ---
 
-## 💻 Local Agents & Small Language Models (SLMs)
+## Local Agents & Small Language Models (SLMs)
 
 Sending every agent turn to a cloud LLM is expensive and raises data privacy concerns. Running agents locally on-device is becoming practical thanks to Small Language Models (SLMs) like Llama-3-8B, Phi-3, or Gemma-2-9B.
 
@@ -49,7 +49,7 @@ graph LR
 
 ---
 
-## 🌐 Web-Navigating & Computer-Use Agents
+## Web-Navigating & Computer-Use Agents
 
 The ultimate form of autonomy is an agent that can interact with any software just like a human: using a mouse, keyboard, and browser.
 
@@ -73,7 +73,7 @@ Web agents run headless browsers, interacting directly with web pages. They scra
 
 ---
 
-## 🏢 The 2026 Big Tech Landscape: GCP, Anthropic, OpenAI, Meta, & AWS
+## The 2026 Big Tech Landscape: GCP, Anthropic, OpenAI, Meta, & AWS
 
 By mid-2026, the tech giants are competing directly to build the orchestration layers and hosting infrastructures for autonomous systems:
 
@@ -87,7 +87,7 @@ By mid-2026, the tech giants are competing directly to build the orchestration l
 
 ---
 
-## 🎓 Curriculum Summary & Next Steps
+## Curriculum Summary & Next Steps
 
 You have completed the theoretical chapters of the **Agentic Workflows & Multi-Agent Orchestration** curriculum.
 
@@ -100,5 +100,5 @@ You now possess the foundational architectural context required to build, test, 
 
 ---
 
-## 🏁 Final Step
+## Final Step
 Now that you have mastered the architectural theory, it's time to build! Go to **[Lab 1: The Vanilla ReAct Loop](../../labs/lab-01-vanilla-react/README.md)** to implement your first autonomous planning loop from scratch in pure Python.

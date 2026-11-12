@@ -24,9 +24,9 @@ class TransactionState(TypedDict):
 
 def execute_transaction(state: TransactionState) -> dict:
     """Destructive database write command execution (runs after approval)."""
-    print("\n💾 [Database Node] Executing query in production database...")
-    print(f"   SQL >> {state['sql_command']}")
-    print("   [DB Info] 1 row affected. Transaction committed.")
+    print("\n [Database Node] Executing query in production database...")
+    print(f"SQL >> {state['sql_command']}")
+    print("[DB Info] 1 row affected. Transaction committed.")
     return {"status": "executed"}
 
 # =====================================================================
@@ -35,14 +35,14 @@ def execute_transaction(state: TransactionState) -> dict:
 
 def run_agent_planner(state: TransactionState) -> dict:
     """Agent prepares the SQL write command based on transaction details."""
-    print("🤖 [Node: Agent Planner] Preparing database command...")
+    print("[Node: Agent Planner] Preparing database command...")
     recipient = state["recipient"]
     amount = state["amount"]
     
     # Formulate database modification query
     sql = f"UPDATE accounts SET balance = balance - {amount} WHERE username = '{recipient}';"
     
-    print(f"   [Planned Action] Write Query generated: {sql}")
+    print(f"[Planned Action] Write Query generated: {sql}")
     # Return updates containing the planned query and pause status
     return {
         "sql_command": sql,
@@ -55,26 +55,26 @@ def run_agent_planner(state: TransactionState) -> dict:
 
 def request_human_approval(state: TransactionState) -> bool:
     """Pauses the execution thread and prompts the developer for approval."""
-    print("\n" + "🛑" * 15)
-    print("⚠️  BREAKPOINT INTERRUPT: SENSITIVE TRANSACTION DETECTED")
-    print(f"   Transaction ID: {state['transaction_id']}")
-    print(f"   Recipient:      {state['recipient']}")
-    print(f"   Amount:         ${state['amount']:.2f}")
-    print(f"   Target Query:   {state['sql_command']}")
-    print("" + "🛑" * 15)
+    print("\n" + "" * 15)
+    print("BREAKPOINT INTERRUPT: SENSITIVE TRANSACTION DETECTED")
+    print(f"Transaction ID: {state['transaction_id']}")
+    print(f"Recipient:      {state['recipient']}")
+    print(f"Amount:         ${state['amount']:.2f}")
+    print(f"Target Query:   {state['sql_command']}")
+    print("" + "" * 15)
     
     # Prompt user in terminal console
     try:
-        user_input = input("\n👉 Approve execution? (y/n): ").strip().lower()
+        user_input = input("\n Approve execution? (y/n): ").strip().lower()
         if user_input == 'y' or user_input == 'yes':
             print("🟢 Human Approved. Resuming execution thread...")
             return True
         else:
-            print("🔴 Human Rejected. Aborting execution thread...")
+            print("Human Rejected. Aborting execution thread...")
             return False
     except EOFError:
         # Fallback if run in non-interactive environment (CI, test runs)
-        print("ℹ️ Non-interactive run detected. Auto-approving for demo...")
+        print("ℹ Non-interactive run detected. Auto-approving for demo...")
         return True
 
 # =====================================================================
@@ -83,7 +83,7 @@ def request_human_approval(state: TransactionState) -> bool:
 
 def run_human_in_the_loop_demo(recipient: str, amount: float):
     print("=" * 70)
-    print("🚀 Initializing Human-in-the-Loop Safeguard Workflow...")
+    print("Initializing Human-in-the-Loop Safeguard Workflow...")
     print("=" * 70)
     
     # 1. Initialize State
@@ -114,10 +114,10 @@ def run_human_in_the_loop_demo(recipient: str, amount: float):
         else:
             # 4b. Terminate with abort status
             state["status"] = "aborted"
-            print("\n❌ Transaction Aborted by human administrator.")
+            print("\n Transaction Aborted by human administrator.")
             
-    print("\n🎉 Safeguard Loop Complete!")
-    print(f"👉 Final State: {state['status'].upper()}\n")
+    print("\n Safeguard Loop Complete!")
+    print(f"Final State: {state['status'].upper()}\n")
     print("=" * 70)
 
 if __name__ == "__main__":

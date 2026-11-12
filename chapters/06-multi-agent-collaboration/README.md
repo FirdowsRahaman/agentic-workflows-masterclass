@@ -1,10 +1,10 @@
-# Chapter 6: Multi-Agent Collaboration Patterns 👥
+# Chapter 6: Multi-Agent Collaboration Patterns 
 
 In this chapter, we explore multi-agent systems. We will compare single-agent and multi-agent designs, analyze core collaboration patterns (Orchestrator-Worker, Hierarchical, Peer-to-Peer), and design strict communication protocols to allow multiple specialized agents to collaborate effectively.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [Why Multi-Agent?](#why-multi-agent)
 - [Orchestrator-Worker (Supervisor) Pattern](#orchestrator-worker-supervisor-pattern)
 - [Hierarchical Teams Pattern](#hierarchical-teams-pattern)
@@ -35,7 +35,7 @@ Dividing a large problem into multiple **specialized agents** mimics human organ
 
 ---
 
-## 👑 Orchestrator-Worker (Supervisor) Pattern
+## Orchestrator-Worker (Supervisor) Pattern
 
 In the **Orchestrator-Worker** (or Supervisor) pattern, a central coordinator LLM receives the user request, decides which specialized agent is best equipped to handle the task, delegates the work, and reviews the output.
 
@@ -55,7 +55,7 @@ graph TD
 
 ---
 
-## 🏛️ Hierarchical Teams Pattern
+## Hierarchical Teams Pattern
 
 For complex workflows, a flat Supervisor model is not enough. We need **Hierarchical Teams**, which nest agent graphs inside other graphs.
 
@@ -82,7 +82,7 @@ In this pattern:
 
 ---
 
-## 💬 Peer-to-Peer (Choreography) Pattern
+## Peer-to-Peer (Choreography) Pattern
 
 In the **Peer-to-Peer (Choreography)** pattern, there is no supervisor. Agents collaborate in a circular or free-form dialogue chain, passing execution states directly to the next agent based on predetermined conditions.
 
@@ -103,7 +103,7 @@ This is highly effective for sequential verification pipelines, such as:
 
 ---
 
-## 📝 Communication & State Sharing Protocols
+## Communication & State Sharing Protocols
 
 For multi-agent systems to function predictably, you must define how agents share data:
 
@@ -126,37 +126,37 @@ class TaskHandoff(BaseModel):
 
 ---
 
-## ⚙️ Production Agentic Engineering: Advanced Architectures
+## Production Agentic Engineering: Advanced Architectures
 
 Building reliable multi-agent systems in production requires looking past simple routing flows and addressing the core mechanics of memory, state context, token optimization, and tool delegation.
 
 ### 1. Context & State Management
 In multi-agent systems, state must be securely passed between agents. 
-*   **State Serialization**: When Handing off tasks, the output payload of Agent A must be structured (typically using Pydantic schemas) and serialized (JSON) before being injected into Agent B's system prompt or messages list. This enforces data boundaries.
-*   **Token Budgeting**: As agents execute in loops, the chat history grows. In production, you must implement **Payload Pruning** (e.g., sliding window limits, summarizing older messages, or filtering out intermediate system/tool messages) to prevent context window bloat and runaway API token costs.
+* **State Serialization**: When Handing off tasks, the output payload of Agent A must be structured (typically using Pydantic schemas) and serialized (JSON) before being injected into Agent B's system prompt or messages list. This enforces data boundaries.
+* **Token Budgeting**: As agents execute in loops, the chat history grows. In production, you must implement **Payload Pruning** (e.g., sliding window limits, summarizing older messages, or filtering out intermediate system/tool messages) to prevent context window bloat and runaway API token costs.
 
 ### 2. Memory: Short-Term vs. Long-Term
 Memory systems are divided based on persistence and retrieval styles:
-*   **Short-Term (Episodic) Memory**: Thread-specific memory tracking the current session's conversation history. It is temporal and discarded when the session ends.
-*   **Long-Term (Semantic & Associative) Memory**: Persistent knowledge shared *across* sessions. 
-    *   *Semantic Memory* uses vector databases to retrieve facts or user profiles via similarity search.
-    *   *Associative Memory* uses Knowledge Graphs (GraphRAG) to reconstruct connections between entities (e.g., linking a customer's workspace, code languages, and deployment history).
+* **Short-Term (Episodic) Memory**: Thread-specific memory tracking the current session's conversation history. It is temporal and discarded when the session ends.
+* **Long-Term (Semantic & Associative) Memory**: Persistent knowledge shared *across* sessions. 
+    * *Semantic Memory* uses vector databases to retrieve facts or user profiles via similarity search.
+    * *Associative Memory* uses Knowledge Graphs (GraphRAG) to reconstruct connections between entities (e.g., linking a customer's workspace, code languages, and deployment history).
 
 ### 3. Context Caching
 Stateful multi-agent systems suffer from high latency and input costs because the same large system instructions, reference document corpora, or session histories are sent repeatedly to the LLM. 
-*   **Prompt Optimization**: By saving the pre-computed attention states (**KV-Cache**) of static prompt prefixes in the provider's GPU memory, context caching reduces latency and token costs by up to **75-90%** (supported by Gemini, Claude, and GPT-4o).
+* **Prompt Optimization**: By saving the pre-computed attention states (**KV-Cache**) of static prompt prefixes in the provider's GPU memory, context caching reduces latency and token costs by up to **75-90%** (supported by Gemini, Claude, and GPT-4o).
 
-> 📘 **Deep Dive Guide**: For a detailed mathematical and practical breakdown of prefix matching, time-to-live eviction rules, and model provider pricing comparison, see **[Chapter 13: Context Caching & KV-Cache Optimization](../13-context-caching/README.md)**.
+>  **Deep Dive Guide**: For a detailed mathematical and practical breakdown of prefix matching, time-to-live eviction rules, and model provider pricing comparison, see **[Chapter 13: Context Caching & KV-Cache Optimization](../13-context-caching/README.md)**.
 
 
 ### 4. Decoupled Tooling & MCP
 In traditional architectures, tools are tightly coupled to the agent framework (e.g., writing a LangChain-specific tool class). In enterprise systems, tools must be decoupled so that any agent running in any environment can invoke them.
-*   **Model Context Protocol (MCP)**: An open standard using a client-server architecture. Tools are hosted on an independent **MCP Server** (running locally or in a sandbox container) and exposed via JSON-RPC. 
-*   **Framework Agnosticism**: An agent framework (acting as the **MCP Client**) queries the server to list and execute tools. This means a single database tool server can be shared seamlessly between LangGraph, custom Python scripts, AWS Bedrock agents, or Google ADK.
+* **Model Context Protocol (MCP)**: An open standard using a client-server architecture. Tools are hosted on an independent **MCP Server** (running locally or in a sandbox container) and exposed via JSON-RPC. 
+* **Framework Agnosticism**: An agent framework (acting as the **MCP Client**) queries the server to list and execute tools. This means a single database tool server can be shared seamlessly between LangGraph, custom Python scripts, AWS Bedrock agents, or Google ADK.
 
 ---
 
-### 📊 Multi-Agent Framework Comparison
+### Multi-Agent Framework Comparison
 
 When selecting an orchestration framework, evaluate how they manage state, memory, and deployment scale:
 
@@ -169,7 +169,7 @@ When selecting an orchestration framework, evaluate how they manage state, memor
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **Multi-Agent Systems** reduce prompt complexity and tool selection failures by dividing labor among specialized agents.
 - **Orchestrator-Worker** relies on a central LLM to route tasks and compile final reports.
@@ -179,9 +179,9 @@ When selecting an orchestration framework, evaluate how they manage state, memor
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 
 Put theory into practice:
-- 🧪 **[Lab 8: Collaborative Agents with Google ADK](../../labs/lab-08-google-adk/README.md)** — Build specialized agents, custom tools, and collaborative sequential workflows using the Google ADK Python SDK.
+- **[Lab 8: Collaborative Agents with Google ADK](../../labs/lab-08-google-adk/README.md)** — Build specialized agents, custom tools, and collaborative sequential workflows using the Google ADK Python SDK.
 
 After completing the lab, proceed to **[Chapter 7: Human-in-the-Loop (HITL)](../07-human-in-the-loop/README.md)** to learn how to pause these workflows for user validation.

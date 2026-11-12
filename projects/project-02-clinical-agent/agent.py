@@ -31,7 +31,7 @@ MEDICAL_KNOWLEDGE_BASE = {
 
 def query_medical_kb(symptoms: str) -> list[str]:
     """Queries medical knowledge base for clinical guidelines."""
-    print("🔎 [Medical KB] Searching clinical guidelines...")
+    print("[Medical KB] Searching clinical guidelines...")
     s = symptoms.lower()
     facts = []
     if "fever" in s or "cough" in s:
@@ -42,11 +42,11 @@ def query_medical_kb(symptoms: str) -> list[str]:
 
 def check_input_safety(symptoms: str) -> bool:
     """Simulates LlamaGuard input safety check for dangerous requests."""
-    print("🛡️ [Safety Guard] Checking input for toxic, harmful, or illegal topics...")
+    print("[Safety Guard] Checking input for toxic, harmful, or illegal topics...")
     s = symptoms.lower()
     # Simple check for self-harm or weapon requests
     if "poison" in s or "kill" in s or "suicide" in s:
-        print("🔴 [Safety Guard] ALERT: Input flagged as unsafe.")
+        print("[Safety Guard] ALERT: Input flagged as unsafe.")
         return False
     print("🟢 [Safety Guard] Input validated as safe.")
     return True
@@ -57,14 +57,14 @@ def check_input_safety(symptoms: str) -> bool:
 
 def analyze_symptoms_node(state: ClinicalState) -> dict:
     """Generates the clinical report draft grounding the response in guidelines."""
-    print("🤖 [Node: analyze_symptoms_node] Synthesizing clinical diagnosis draft...")
+    print("[Node: analyze_symptoms_node] Synthesizing clinical diagnosis draft...")
     symptoms = state["symptoms"]
     guidelines = "\n".join([f"- {g}" for g in state["medical_facts"]])
     
     # Use API key if available
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        print("ℹ️ Model running in Mock Mode...")
+        print("ℹ Model running in Mock Mode...")
         # Simulated diagnostic draft
         draft = (
             f"### CLINICAL SUPPORT REPORT\n"
@@ -82,9 +82,7 @@ def analyze_symptoms_node(state: ClinicalState) -> dict:
         client = genai.Client()
         prompt = f"""You are a Clinical Decision Support Assistant.
 Write a clinical evaluation report for a patient presenting with these symptoms:
-"{symptoms}"
-
-Ground your recommendations strictly in these medical guidelines:
+"{symptoms}"Ground your recommendations strictly in these medical guidelines:
 {guidelines}
 
 Format your report as a medical chart summary. End with recommendations for the physician to approve.
@@ -103,21 +101,21 @@ Report:"""
 
 def request_doctor_review(state: ClinicalState) -> bool:
     """Hhalts the agent execution thread, prompting the doctor for review."""
-    print("\n" + "🩺" * 20)
-    print("🏥 PHYSICIAN REVIEW BREAKPOINT REQUIRED")
+    print("\n" + "" * 20)
+    print("PHYSICIAN REVIEW BREAKPOINT REQUIRED")
     print(state["proposed_diagnosis"])
-    print("🩺" * 20)
+    print("" * 20)
     
     try:
-        user_input = input("\n🩺 Doctor: Approve this diagnosis & submit to EHR? (y/n): ").strip().lower()
+        user_input = input("\n Doctor: Approve this diagnosis & submit to EHR? (y/n): ").strip().lower()
         if user_input == 'y' or user_input == 'yes':
             print("🟢 Doctor Approved. Committing to Electronic Health Record (EHR)...")
             return True
         else:
-            print("🔴 Doctor Rejected. Clinical report discarded.")
+            print("Doctor Rejected. Clinical report discarded.")
             return False
     except EOFError:
-        print("ℹ️ Non-interactive run detected. Auto-approving diagnosis...")
+        print("ℹ Non-interactive run detected. Auto-approving diagnosis...")
         return True
 
 # =====================================================================
@@ -126,7 +124,7 @@ def request_doctor_review(state: ClinicalState) -> bool:
 
 def run_clinical_workflow(patient_id: str, symptoms: str):
     print("=" * 70)
-    print(f"🚀 Initializing Clinical Support System for Patient: {patient_id}")
+    print(f"Initializing Clinical Support System for Patient: {patient_id}")
     print("=" * 70)
     
     # 1. Initialize State
@@ -143,7 +141,7 @@ def run_clinical_workflow(patient_id: str, symptoms: str):
     # 2. Safety Check (LlamaGuard Simulator)
     if not check_input_safety(symptoms):
         state["status"] = "blocked_by_safety"
-        print("❌ Blocked: input violated safety guidelines.")
+        print("Blocked: input violated safety guidelines.")
         print("=" * 70)
         return
         
@@ -163,11 +161,11 @@ def run_clinical_workflow(patient_id: str, symptoms: str):
         
         if approved:
             state["status"] = "committed_to_ehr"
-            print("💾 Clinical report committed to patient record database successfully.")
+            print("Clinical report committed to patient record database successfully.")
         else:
             state["status"] = "rejected_by_physician"
             
-    print(f"\n🎉 Clinical Workflow finished! Final Status: {state['status'].upper()}\n")
+    print(f"\n Clinical Workflow finished! Final Status: {state['status'].upper()}\n")
     print("=" * 70)
 
 if __name__ == "__main__":

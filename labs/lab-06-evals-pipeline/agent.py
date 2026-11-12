@@ -82,11 +82,7 @@ def run_llm_judge(query: str, output: str, ground_truth: str) -> float:
         prompt = f"""You are a professional LLM Evaluation Judge.
 Evaluate the semantic correctness of the assistant's output compared to the ground truth key value.
 
-User Query: "{query}"
-Assistant Output: "{output}"
-Ground Truth Expected: "{ground_truth}"
-
-Respond with a single float score between 0.0 (completely incorrect) and 1.0 (perfectly matches ground truth facts).
+User Query: "{query}"Assistant Output: "{output}"Ground Truth Expected: "{ground_truth}"Respond with a single float score between 0.0 (completely incorrect) and 1.0 (perfectly matches ground truth facts).
 Score:"""
         
         response = client.models.generate_content(
@@ -110,7 +106,7 @@ Score:"""
 
 def run_evaluation_suite():
     print("=" * 70)
-    print("🚀 Initializing Automated Agent Evaluation Suite...")
+    print("Initializing Automated Agent Evaluation Suite...")
     print("=" * 70)
     
     results = []
@@ -137,13 +133,13 @@ def run_evaluation_suite():
         test_passed = tool_matches and (judge_score >= 0.8)
         if test_passed:
             passed_tests += 1
-            status = "PASSED ✅"
+            status = "PASSED "
         else:
-            status = "FAILED ❌"
+            status = "FAILED "
             
-        print(f"   [Tool Selection] Expected: {case['expected_tool']} | Selected: {agent_out['selected_tool']} ({'OK' if tool_matches else 'FAIL'})")
-        print(f"   [Judge Score]    Semantic Accuracy: {judge_score*100:.1f}%")
-        print(f"   [Status]         {status}")
+        print(f"[Tool Selection] Expected: {case['expected_tool']} | Selected: {agent_out['selected_tool']} ({'OK' if tool_matches else 'FAIL'})")
+        print(f"[Judge Score]    Semantic Accuracy: {judge_score*100:.1f}%")
+        print(f"[Status]         {status}")
         
         results.append({
             "id": case["id"],
@@ -153,7 +149,7 @@ def run_evaluation_suite():
         })
         
     print("\n" + "=" * 70)
-    print("📊 Evaluation Summary Report")
+    print("Evaluation Summary Report")
     print("=" * 70)
     total_tests = len(TEST_DATASET)
     success_rate = (passed_tests / total_tests) * 100
@@ -167,7 +163,7 @@ def run_evaluation_suite():
         print("\n🟢 Pipeline Status: PASSED (Accuracy meets minimum requirements)")
         sys.exit(0)
     else:
-        print("\n🔴 Pipeline Status: FAILED (Accuracy below build threshold)")
+        print("\n Pipeline Status: FAILED (Accuracy below build threshold)")
         sys.exit(1)
 
 if __name__ == "__main__":

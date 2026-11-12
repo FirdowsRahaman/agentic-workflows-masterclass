@@ -1,10 +1,10 @@
-# Capstone Project 1: Autonomous Sandbox Dev Team 🖥️
+# Capstone Project 1: Autonomous Sandbox Dev Team 
 
 Welcome to Capstone Project 1! In this project, we construct an **Autonomous Software Developer Agent** that writes Python script files, runs them in a sandboxed execution runtime, parses tracebacks to self-correct compilation/syntax errors, and iterates until the script runs successfully.
 
 ---
 
-## 🎯 Project Goal
+## Project Goal
 Build a self-correcting development loop. The agent acts as an autonomous coder:
 1. Receives a user feature description.
 2. Writes a Python implementation script.
@@ -14,12 +14,12 @@ Build a self-correcting development loop. The agent acts as an autonomous coder:
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The main developer agent script containing file writing methods, execution sandboxes, and loop conditions.
 
 ---
 
-## ⚙️ Architecture & Self-Correction Flow
+## Architecture & Self-Correction Flow
 
 ```mermaid
 graph TD
@@ -33,7 +33,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Project
+## Running the Project
 
 ### Run instructions
 Navigate to the project directory:

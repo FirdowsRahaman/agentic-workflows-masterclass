@@ -23,7 +23,7 @@ class ResearchState(TypedDict):
 
 def search_researcher_worker(topic: str) -> str:
     """Simulates Tavily API web search gathering competitor data."""
-    print(f"🔎 [Search Agent] Fetching live web data for: '{topic}'...")
+    print(f"[Search Agent] Fetching live web data for: '{topic}'...")
     # Simulated search database
     return (
         "Competitor A: Launched AgentBuilder. Raised $50M Series A. Core tech uses LangGraph.\n"
@@ -32,7 +32,7 @@ def search_researcher_worker(topic: str) -> str:
 
 def knowledge_graph_worker(web_data: str) -> list[dict]:
     """Simulates Neo4j Entity extractor finding nodes and connections."""
-    print("🕸️ [Graph Agent] Extracting entities and relationships for Neo4j database...")
+    print("[Graph Agent] Extracting entities and relationships for Neo4j database...")
     # Simulating entity extraction from research text
     entities = [
         {"node_1": "Competitor A", "relation": "USES", "node_2": "LangGraph"},
@@ -40,7 +40,7 @@ def knowledge_graph_worker(web_data: str) -> list[dict]:
         {"node_1": "Competitor A", "relation": "RAISED", "node_2": "$50M Series A"}
     ]
     for entity in entities:
-        print(f"   [Graph Edge Created] ({entity['node_1']}) --[{entity['relation']}]--> ({entity['node_2']})")
+        print(f"[Graph Edge Created] ({entity['node_1']}) --[{entity['relation']}]--> ({entity['node_2']})")
     return entities
 
 # =====================================================================
@@ -49,7 +49,7 @@ def knowledge_graph_worker(web_data: str) -> list[dict]:
 
 def compile_market_report(state: ResearchState) -> str:
     """Orchestrates consolidated market report based on web and graph data."""
-    print("👑 [Supervisor] Consolidating research insights...")
+    print("[Supervisor] Consolidating research insights...")
     web = state["web_data"]
     graph = state["graph_entities"]
     
@@ -59,7 +59,7 @@ def compile_market_report(state: ResearchState) -> str:
     # Use API key if available
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        print("ℹ️ Model running in Mock Mode...")
+        print("ℹ Model running in Mock Mode...")
         return (
             f"# COMPETITIVE INTELLIGENCE REPORT: {state['topic'].upper()}\n\n"
             f"## 1. Web Search Insights\n{web}\n\n"
@@ -74,9 +74,7 @@ def compile_market_report(state: ResearchState) -> str:
 Write a formatted competitor analysis report based on these sources:
 
 Web Data:
-"{web}"
-
-Knowledge Graph Connections:
+"{web}"Knowledge Graph Connections:
 {graph_str}
 
 Format the report with clear sections, executive summary, and architectural technology choices.
@@ -95,7 +93,7 @@ Report:"""
 
 def run_market_research_pipeline(topic: str):
     print("=" * 70)
-    print(f"🚀 Initializing Collaborative Market Research Pipeline: '{topic}'")
+    print(f"Initializing Collaborative Market Research Pipeline: '{topic}'")
     print("=" * 70)
     
     # 1. Initialize State
@@ -117,7 +115,7 @@ def run_market_research_pipeline(topic: str):
     # 4. Step 3: Run Supervisor Compiler
     state["consolidated_report"] = compile_market_report(state)
     
-    print("\n🎉 Competitive Intelligence Pipeline Complete!")
+    print("\n Competitive Intelligence Pipeline Complete!")
     print(state["consolidated_report"])
     print("=" * 70)
 

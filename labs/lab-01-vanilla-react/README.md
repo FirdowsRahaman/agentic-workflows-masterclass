@@ -1,10 +1,10 @@
-# Lab 1: The Vanilla ReAct Loop 🧪
+# Lab 1: The Vanilla ReAct Loop 
 
 Welcome to Lab 1! In this lab, we build a fully functioning **ReAct (Reason + Action)** agent from scratch in pure Python without using any orchestrating frameworks like LangChain or LangGraph. 
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 - Learn how LLMs parse and execute actions via structured prompts.
 - Understand the mechanics of the agent execution loop: `Thought -> Action -> Observation -> Repeat`.
 - Implement a local Tool Registry.
@@ -12,12 +12,12 @@ Welcome to Lab 1! In this lab, we build a fully functioning **ReAct (Reason + Ac
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The core Python script containing the tool registry, ReAct loop, and execution logic.
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
 ### 1. The Prompt Contract
 We feed the LLM a strict system prompt (`SYSTEM_PROMPT`) defining the available tools (`get_weather`, `calculate_tax`) and instruct it to format its output using XML-style or plain text prefixes:
@@ -41,7 +41,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 ### Prerequisites
 Make sure you have installed requirements and have your terminal in this directory:

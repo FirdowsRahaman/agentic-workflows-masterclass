@@ -1,10 +1,10 @@
-# Chapter 10: Observability & Tracing 📊
+# Chapter 10: Observability & Tracing 
 
 In this chapter, we explore Agent Observability. We will analyze the challenges of debugging non-deterministic agents, study open tracing standards, and trace complete execution loops in real-time to locate latency bottlenecks and cost spikes.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [The Debugging Challenge](#the-debugging-challenge)
 - [Anatomy of an Agent Trace](#anatomy-of-an-agent-trace)
 - [Observability Ecosystem: OpenInference, Phoenix & LangSmith](#observability-ecosystem-openinference-phoenix--langsmith)
@@ -14,7 +14,7 @@ In this chapter, we explore Agent Observability. We will analyze the challenges 
 
 ---
 
-## 🔍 The Debugging Challenge
+## The Debugging Challenge
 
 Unlike traditional deterministic code, where a bug produces a predictable stack trace, agent bugs are often silent and variable:
 - **Flaky Routing**: The LLM chooses the correct tool 95% of the time, but occasionally selects the wrong tool or passes invalid arguments.
@@ -25,7 +25,7 @@ To resolve this, we cannot rely on simple print statements. We need **distribute
 
 ---
 
-## 🕸️ Anatomy of an Agent Trace
+## Anatomy of an Agent Trace
 
 Observability frameworks model agent execution as a tree of nested **Spans** grouped under a single **Trace ID**:
 
@@ -48,7 +48,7 @@ graph TD
 
 ---
 
-## 🛠️ Observability Ecosystem
+## Observability Ecosystem
 
 Production agents utilize standardized open-source tracing packages to collect and view telemetry:
 
@@ -66,7 +66,7 @@ Production agents utilize standardized open-source tracing packages to collect a
 
 ---
 
-## ⚡ Performance & Latency Optimization
+## Performance & Latency Optimization
 
 Once tracing is active, use it to analyze and optimize your agent's performance profile:
 
@@ -93,7 +93,7 @@ graph TD
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **Observability** is mandatory to debug non-deterministic routing and state mutations in agents.
 - **Traces** capture the entire execution graph, nesting sub-operations like LLM calls and tool executions as **Spans**.
@@ -102,5 +102,5 @@ graph TD
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 11: Evaluation Pipelines](../11-evaluation-pipelines/README.md)**, we will build automated testing suites to run our agents against standard QA datasets, verifying accuracy and security before deployment.

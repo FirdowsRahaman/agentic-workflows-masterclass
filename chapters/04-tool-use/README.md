@@ -1,10 +1,10 @@
-# Chapter 4: Tool Use & Stateless Core 🛠️
+# Chapter 4: Tool Use & Stateless Core 
 
 In this chapter, we inspect the mechanical plumbing of agent tool use. We will dive into how function calling works under the hood, how the handshaking protocol works between client and server runtimes, and how to write resilient agents that gracefully handle real-world API errors, timeouts, and output limits.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [Function Calling Under the Hood](#function-calling-under-the-hood)
 - [Model Context Protocol (Stateless Core & Extensions)](#model-context-protocol-stateless-core--extensions)
 - [Common Tool Failures & Mitigation](#common-tool-failures--mitigation)
@@ -14,7 +14,7 @@ In this chapter, we inspect the mechanical plumbing of agent tool use. We will d
 
 ---
 
-## 🔌 Function Calling Under the Hood
+## Function Calling Under the Hood
 
 LLMs cannot run Python code or fetch URLs directly. Instead, modern models are trained to output special structured sequences (usually JSON format) representing a function call when their system prompt tells them that tools are available.
 
@@ -53,7 +53,7 @@ The tool definition requires a name, a description (critical because the LLM use
 
 ---
 
-## 🤝 Model Context Protocol (Stateless Core & Extensions)
+## Model Context Protocol (Stateless Core & Extensions)
 
 > [!IMPORTANT]
 > **2026 Specification Update**: The Model Context Protocol (MCP) has transitioned from a stateful, connection-oriented handshake model to a **Stateless Protocol Core**. MCP now runs on standard, stateless HTTP transport infrastructures, eliminating the need for persistent server-side handshakes or connection locking. This allows MCP servers to be deployed horizontally behind standard load balancers.
@@ -84,7 +84,7 @@ sequenceDiagram
 
 ---
 
-## ⚠️ Common Tool Failures & Mitigation
+## Common Tool Failures & Mitigation
 
 Production agents must expect tools to fail. Here is how the orchestrator intercepts exceptions and loops back to allow LLM self-correction:
 
@@ -113,7 +113,7 @@ graph TD
 
 ---
 
-## ✂️ Handling Large Tool Outputs & Truncation
+## Handling Large Tool Outputs & Truncation
 
 A common error is passing a massive database or API response directly back to the LLM, exhausting the context window or spiking token costs:
 
@@ -125,12 +125,12 @@ A common error is passing a massive database or API response directly back to th
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - The **Model Context Protocol (MCP)** provides a stateless, vendor-neutral interface backed by the Linux Foundation's **Agentic AI Foundation (AAIF)** to securely connect client orchestrators to remote tool servers.
 - Build defensive agent runtimes: handle JSON parsing, timeouts, and output limits at the code layer, and leverage the LLM's reasoning loop to correct schema errors.
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 5: Stateful Agent Workflows](../05-stateful-workflows/README.md)**, we shift our attention to Level 2 and learn how to manage long-term agent sessions, define cyclic graphs, and build complex state machines.

@@ -70,7 +70,7 @@ class InMemoryVectorStore:
         try:
             from google import genai
             client = genai.Client()
-            print("🔋 [Vector DB] Pre-computing embeddings for local knowledge base...")
+            print("[Vector DB] Pre-computing embeddings for local knowledge base...")
             for i, doc in enumerate(self.documents):
                 response = client.models.embed_content(
                     model="text-embedding-004",
@@ -81,7 +81,7 @@ class InMemoryVectorStore:
             self.initialized = True
             print("🟢 [Vector DB] Embeddings loaded successfully.")
         except Exception as e:
-            print(f"⚠️ Failed to compute embeddings via API (falling back to mock mode): {e}")
+            print(f"Failed to compute embeddings via API (falling back to mock mode): {e}")
             self.initialized = False
 
     def _cosine_similarity(self, vec_a: list[float], vec_b: list[float]) -> float:
@@ -142,7 +142,7 @@ class InMemoryVectorStore:
                             "score": score
                         })
             except Exception as e:
-                print(f"⚠️ Search embedding call failed, falling back to keywords: {e}")
+                print(f"Search embedding call failed, falling back to keywords: {e}")
                 self.initialized = False
         
         # Fallback keyword match
@@ -168,20 +168,20 @@ vector_store = InMemoryVectorStore()
 
 def retrieve_node(state: RAGState) -> dict:
     """Queries vector database to fetch relevant text chunks."""
-    print(f"\n🔍 [Node: retrieve] Fetching local documents for query: '{state['query']}'")
+    print(f"\n [Node: retrieve] Fetching local documents for query: '{state['query']}'")
     docs = vector_store.search(state["query"])
     for d in docs:
-        print(f"   - Match Found (Score: {d['score']:.4f}): '{d['content'][:60]}...' [{d['source']}]")
+        print(f"   - Match Found (Score: {d['score']:.4f}): '{d['content'][:60]}...'[{d['source']}]")
     return {"documents": docs}
 
 def grade_documents_node(state: RAGState) -> dict:
     """Evaluates retrieved chunks and filters out irrelevant ones."""
-    print("\n🛡️ [Node: grade_documents] Checking document relevance...")
+    print("\n [Node: grade_documents] Checking document relevance...")
     relevant_docs = []
     
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        print("ℹ️ Grader running in Mock Mode...")
+        print("ℹ Grader running in Mock Mode...")
         # Simulating relevance grading based on keyword overlap
         for doc in state["documents"]:
             # If search score is high, mark relevant
@@ -189,7 +189,7 @@ def grade_documents_node(state: RAGState) -> dict:
                 print(f"   🟢 ACCEPTED: '{doc['content'][:50]}...'")
                 relevant_docs.append(doc)
             else:
-                print(f"   🔴 REJECTED (Irrelevant): '{doc['content'][:50]}...'")
+                print(f"REJECTED (Irrelevant): '{doc['content'][:50]}...'")
         return {"relevant_documents": relevant_docs}
 
     try:
@@ -213,11 +213,11 @@ Answer:"""
                 print(f"   🟢 ACCEPTED: '{doc['content'][:50]}...'")
                 relevant_docs.append(doc)
             else:
-                print(f"   🔴 REJECTED: '{doc['content'][:50]}...'")
+                print(f"REJECTED: '{doc['content'][:50]}...'")
                 
         return {"relevant_documents": relevant_docs}
     except Exception as e:
-        print(f"⚠️ LLM Grading failed, falling back to scores: {e}")
+        print(f"LLM Grading failed, falling back to scores: {e}")
         # Fallback to local heuristic
         for doc in state["documents"]:
             if doc["score"] > 0.15:
@@ -226,7 +226,7 @@ Answer:"""
 
 def query_expansion_node(state: RAGState) -> dict:
     """Expands query and queries external web mock index."""
-    print("\n🔄 [Node: query_expansion] Local data insufficient. Expanding search and querying Web Search API...")
+    print("\n [Node: query_expansion] Local data insufficient. Expanding search and querying Web Search API...")
     
     query = state["query"]
     expanded_query = query
@@ -244,12 +244,12 @@ Search Query:"""
                 contents=prompt
             )
             expanded_query = response.text.strip()
-            print(f"   [Query Expanded] '{query}' ──> '{expanded_query}'")
+            print(f"[Query Expanded] '{query}' ──> '{expanded_query}'")
         except Exception as e:
-            print(f"⚠️ Query expansion failed: {e}")
+            print(f"Query expansion failed: {e}")
             
     # Run mock Web Search lookup
-    print(f"🌐 [Web Search API] Executing query: '{expanded_query}'...")
+    print(f"[Web Search API] Executing query: '{expanded_query}'...")
     web_results = []
     
     q_low = expanded_query.lower()
@@ -271,7 +271,7 @@ Search Query:"""
 
 def generate_node(state: RAGState) -> dict:
     """Synthesizes all gathered information to generate a complete grounded response."""
-    print("\n✍️ [Node: generate] Synthesizing final answer...")
+    print("\n [Node: generate] Synthesizing final answer...")
     
     # Compile sources
     context_chunks = state["relevant_documents"] + state.get("web_results", [])
@@ -279,7 +279,7 @@ def generate_node(state: RAGState) -> dict:
     
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        print("ℹ️ Generator running in Mock Mode...")
+        print("ℹ Generator running in Mock Mode...")
         # Mock answers
         if state["status"] == "requires_web_search":
             ans = "Based on web telemetry reports, AgentOps deals with telemetry/observability. Key tools include Arize Phoenix and LangSmith."
@@ -315,10 +315,10 @@ def check_relevance_edge(state: RAGState) -> str:
     """Determines whether to proceed directly or trigger query expansion/web fallback."""
     # If no relevant local docs were found, route to expansion
     if not state["relevant_documents"]:
-        print("🔗 [Edge: check_relevance] 0 relevant local documents ──> Route to 'query_expansion'")
+        print("[Edge: check_relevance] 0 relevant local documents ──> Route to 'query_expansion'")
         return "query_expansion"
     else:
-        print(f"🔗 [Edge: check_relevance] {len(state['relevant_documents'])} relevant documents found ──> Route to 'generate'")
+        print(f"[Edge: check_relevance] {len(state['relevant_documents'])} relevant documents found ──> Route to 'generate'")
         return "generate"
 
 # =====================================================================
@@ -327,7 +327,7 @@ def check_relevance_edge(state: RAGState) -> str:
 
 def run_corrective_rag(query: str):
     print("=" * 80)
-    print(f"🚀 Initializing Corrective RAG (CRAG) Pipeline | Query: '{query}'")
+    print(f"Initializing Corrective RAG (CRAG) Pipeline | Query: '{query}'")
     print("=" * 80)
     
     # Initialize state
@@ -361,9 +361,9 @@ def run_corrective_rag(query: str):
     final_output = generate_node(state)
     state.update(final_output)
     
-    print("\n🎉 CRAG Execution Finished!")
+    print("\n CRAG Execution Finished!")
     print("-" * 80)
-    print(f"👉 Final Answer:\n{state['answer']}")
+    print(f"Final Answer:\n{state['answer']}")
     print("-" * 80)
     print(f"Workflow Status: {state['status'].upper()}\n")
 

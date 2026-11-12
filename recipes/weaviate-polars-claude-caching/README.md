@@ -1,5 +1,17 @@
 # Production Recipe: Weaviate + Polars + Claude Context Caching
 
+<div align="center">
+  <a href="https://weaviate.io"><img src="https://img.shields.io/badge/Weaviate-v4_Vector_Store-00D2B4?style=for-the-badge&logo=weaviate&logoColor=white" alt="Weaviate"></a>
+  <a href="https://pola.rs"><img src="https://img.shields.io/badge/Polars-Arrow_SIMD_ETL-CD792C?style=for-the-badge&logo=polars&logoColor=white" alt="Polars"></a>
+  <a href="https://www.anthropic.com"><img src="https://img.shields.io/badge/Anthropic_Claude-Context_Caching-D97706?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude"></a>
+  <a href="https://aws.amazon.com/cloudformation/"><img src="https://img.shields.io/badge/AWS-CloudFormation_eu--central--1-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS CloudFormation"></a>
+  <a href="https://cloud.google.com/run"><img src="https://img.shields.io/badge/GCP-Cloud_Run_europe--west4-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white" alt="GCP Cloud Run"></a>
+  <a href="../../EU_AI_ACT_TECHNICAL_DOCUMENTATION.md"><img src="https://img.shields.io/badge/EU_AI_Act-Annex_IV_Compliant-10B981?style=for-the-badge" alt="EU AI Act"></a>
+  <a href="../../LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License"></a>
+</div>
+
+<br/>
+
 > **Target Cloud Regions**: AWS `eu-central-1` (Frankfurt, Germany) / GCP `europe-west4` (Eemshaven, Netherlands)  
 > **Compliance Standard**: EU AI Act (Regulation EU 2024/1689 Annex IV) & GDPR Sovereign Data Residency  
 > **Author**: Firdows Rahaman — AI/ML Lead & Enterprise Architect  
@@ -189,3 +201,4 @@ This recipe is engineered to comply with the legal obligations of the European U
 2. **GDPR Data Residency & Right to Erasure (Article 17)**:
    - Physical compute and vector storage reside strictly within Frankfurt (`eu-central-1`) or Netherlands (`europe-west4`).
    - Weaviate tenant isolation permits hard deletion of customer vectors and indexes without rebuilding global index graphs.
+

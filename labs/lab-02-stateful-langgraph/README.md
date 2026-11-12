@@ -1,10 +1,10 @@
-# Lab 2: Stateful LangGraph 🔁
+# Lab 2: Stateful LangGraph 
 
 Welcome to Lab 2! In this lab, we build a **Stateful Agent Workflow** illustrating the core mechanics of `LangGraph`. You will learn how to define shared states, execute code inside graph nodes, and write conditional edges to route execution.
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 - Learn how to define a shared, typing-safe **AgentState**.
 - Implement **Nodes** representing discrete tasks (Reasoning, Tool Execution).
 - Write **Conditional Edges** to dynamically route the execution flow.
@@ -12,12 +12,12 @@ Welcome to Lab 2! In this lab, we build a **Stateful Agent Workflow** illustrati
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The Python script demonstrating the LangGraph loop, nodes, and conditional edges.
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
 ### 1. The State Schema
 In stateful graph environments, all variables are stored in a central `AgentState` object. Nodes return specific updates that are merged back into the state using reducers (like appending a new message to the message history list).
@@ -40,7 +40,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 ### Run instructions
 Navigate to the lab directory:

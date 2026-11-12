@@ -53,3 +53,4 @@ gcloud run deploy "${SERVICE_NAME}" \
   --project="${PROJECT_ID}"
 
 echo "[4/4] Sovereign Cloud Run deployment completed in ${REGION}."
+

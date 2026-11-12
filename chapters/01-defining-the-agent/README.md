@@ -1,10 +1,10 @@
-# Chapter 1: Defining the Agent Paradigm 🧠
+# Chapter 1: Defining the Agent Paradigm 
 
 This chapter defines what an "Agent" is, analyzes the spectrum of autonomy, and explains the core requirements for stateful agentic systems by exploring the fundamental limitations of raw LLMs.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [What is an AI Agent?](#what-is-an-ai-agent)
 - [The Autonomy Spectrum](#the-autonomy-spectrum)
 - [Why We Need Agents: Overcoming LLM Limitations](#why-we-need-agents-overcoming-llm-limitations)
@@ -13,7 +13,7 @@ This chapter defines what an "Agent" is, analyzes the spectrum of autonomy, and 
 
 ---
 
-## 🤖 What is an AI Agent?
+## What is an AI Agent?
 
 In the context of modern generative AI, an **Agent** is an LLM-backed system that goes beyond simple input-output mapping. Instead of a single static response, an agent uses a loop to:
 1. **Perceive** an input or environment state.
@@ -34,7 +34,7 @@ $$\text{Agent} = \text{LLM (Reasoning Engine)} + \text{Planning Loop} + \text{Me
 
 ---
 
-## 📈 The Autonomy Spectrum
+## The Autonomy Spectrum
 
 Autonomy is not binary; it is a spectrum. As developers, we choose where on this spectrum our system should reside based on safety, predictability, and task complexity.
 
@@ -70,7 +70,7 @@ graph LR
 
 ---
 
-## ⚖️ The 2026 Agent Engineering Discipline: Measure Before Scaling
+## The 2026 Agent Engineering Discipline: Measure Before Scaling
 
 In 2026, the industry standard for agent design prioritizes cost-efficiency and predictability, stabilizing around a strict progression workflow:
 
@@ -83,7 +83,7 @@ In 2026, the industry standard for agent design prioritizes cost-efficiency and 
 
 ---
 
-## 🛡️ Why We Need Agents: Overcoming LLM Limitations
+## Why We Need Agents: Overcoming LLM Limitations
 
 While frontier LLMs are incredibly powerful, they suffer from fundamental limitations when used as stateless text-completion engines:
 
@@ -101,7 +101,7 @@ While frontier LLMs are incredibly powerful, they suffer from fundamental limita
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **Agents** are active orchestrators, not passive responders.
 - The core architecture relies on an **LLM** acting as the brain, guided by a **planning loop**, equipped with **memory**, and connected to **tools**.
@@ -109,5 +109,5 @@ While frontier LLMs are incredibly powerful, they suffer from fundamental limita
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 2: Moving Beyond Static RAG](../02-moving-beyond-rag/README.md)**, we will explore the specific failures of traditional Retrieval-Augmented Generation and look at how agentic design patterns transform passive search into intelligent research.

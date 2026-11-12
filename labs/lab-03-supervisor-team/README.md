@@ -1,22 +1,22 @@
-# Lab 3: The Supervisor Team 👥
+# Lab 3: The Supervisor Team 
 
 Welcome to Lab 3! In this lab, we implement an **Orchestrator-Worker (Supervisor)** pattern. You will see how a central supervisor agent delegates sub-tasks to specialized domain agents (Researcher, Coder) to divide complexity and prevent context window overload.
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 - Architect a multi-agent system using a central supervisor router.
 - Define communication boundaries and state handoffs between agents.
 - See how specialized worker agents restrict tool scopes to maximize accuracy.
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The Python script implementing the supervisor state machine, researcher agent, and coder agent.
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
 ### 1. Separation of Concerns
 Instead of one agent attempting to search the web *and* write code simultaneously, we divide labor:
@@ -37,7 +37,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 ### Run instructions
 Navigate to the lab directory:

@@ -13,7 +13,7 @@ load_dotenv()
 
 def execute_python_in_sandbox(filename: str) -> str:
     """Executes a Python script in a secure subprocess sandbox and returns output."""
-    print(f"📦 [Sandbox] Executing python script: {filename}...")
+    print(f"[Sandbox] Executing python script: {filename}...")
     try:
         # Run script with a timeout (e.g. 5 seconds) to prevent infinite loops
         result = subprocess.run(
@@ -28,11 +28,11 @@ def execute_python_in_sandbox(filename: str) -> str:
             print("🟢 [Sandbox] Script completed successfully.")
             return f"Success! Output:\n{result.stdout}"
         else:
-            print("🔴 [Sandbox] Script failed execution.")
+            print("[Sandbox] Script failed execution.")
             return f"Failure! Exit Code: {result.returncode}\nError Log:\n{result.stderr}"
             
     except subprocess.TimeoutExpired:
-        print("🔴 [Sandbox] Script timed out.")
+        print("[Sandbox] Script timed out.")
         return "Failure! Execution timed out after 5 seconds."
     except Exception as e:
         return f"Error executing sandbox: {str(e)}"
@@ -43,7 +43,7 @@ def execute_python_in_sandbox(filename: str) -> str:
 
 def write_code_file(filename: str, code: str) -> str:
     """Writes code contents to a local python script file."""
-    print(f"💾 [File System] Writing code to: {filename}...")
+    print(f"[File System] Writing code to: {filename}...")
     try:
         # Prevent absolute paths or directory traversals outside sandbox dir
         base_name = os.path.basename(filename)
@@ -61,8 +61,8 @@ def write_code_file(filename: str, code: str) -> str:
 
 def run_developer_agent(task_description: str):
     print("=" * 70)
-    print(f"🚀 Initializing Autonomous Sandbox Developer Agent...")
-    print(f"   Task: '{task_description}'")
+    print(f"Initializing Autonomous Sandbox Developer Agent...")
+    print(f"Task: '{task_description}'")
     print("=" * 70)
     
     filename = "sandbox_script.py"
@@ -73,8 +73,7 @@ def run_developer_agent(task_description: str):
     use_mock = not api_key
     
     # Starting base context
-    history = f"""You are an Autonomous Coder Agent. Your goal is to write a Python script that completes the user's objective: "{task_description}"
-You MUST write clean, functioning code and execute it using tools to verify it is correct.
+    history = f"""You are an Autonomous Coder Agent. Your goal is to write a Python script that completes the user's objective: "{task_description}"You MUST write clean, functioning code and execute it using tools to verify it is correct.
 If the code runs with errors, read the error message and write a corrected version of the code.
 
 Available Actions:
@@ -92,9 +91,9 @@ Final Answer: Summarize your solution and present the final output details.
 """
     
     if use_mock:
-        print("ℹ️ GEMINI_API_KEY not found. Running in MOCK Developer mode...")
+        print("ℹ GEMINI_API_KEY not found. Running in MOCK Developer mode...")
     else:
-        print("🤖 Using live Gemini API for self-correction execution...")
+        print("Using live Gemini API for self-correction execution...")
         from google import genai
         client = genai.Client()
 
@@ -149,7 +148,7 @@ Final Answer: Summarize your solution and present the final output details.
         
         # Check for termination
         if "Final Answer:" in response_text:
-            print("\n🎉 Project Complete!")
+            print("\n Project Complete!")
             break
             
         # Parse actions
@@ -170,21 +169,21 @@ Final Answer: Summarize your solution and present the final output details.
                     code_block = "def fib(n):\n    if n <= 1: return n\n    return fib(n-1) + fib(n-2)\nprint(fib(5))"
             
             obs = write_code_file(filename, code_block)
-            print(f"   [Observation] {obs}")
+            print(f"[Observation] {obs}")
             history += f"Observation: {obs}\n"
             
         elif "execute_python_in_sandbox" in response_text:
             obs = execute_python_in_sandbox(script_path)
-            print(f"   [Observation] {obs}")
+            print(f"[Observation] {obs}")
             history += f"Observation: {obs}\n"
             
     else:
-        print("\n❌ Failed to compile working code within limit.")
+        print("\n Failed to compile working code within limit.")
 
     # Clean up generated file
     if os.path.exists(script_path):
         os.remove(script_path)
-        print("🧹 Cleaned up temporary sandbox script file.")
+        print("Cleaned up temporary sandbox script file.")
 
 if __name__ == "__main__":
     task = "Write a python script that prints out the first 10 Fibonacci numbers."

@@ -1,10 +1,10 @@
-# Chapter 5: Stateful Agent Workflows 🔁
+# Chapter 5: Stateful Agent Workflows 
 
 In this chapter, we explore stateful agent architectures. We will analyze why state is the defining requirement for production agents, and compare Directed Acyclic Graphs (DAGs) with Cyclic Graphs to show how state is initialized, updated, and persisted across long-running tasks.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [Why State Matters](#why-state-matters)
 - [Acyclic (DAGs) vs. Cyclic Graphs](#acyclic-dags-vs-cyclic-graphs)
 - [Managing State: Reducers & Actions](#managing-state-reducers--actions)
@@ -14,7 +14,7 @@ In this chapter, we explore stateful agent architectures. We will analyze why st
 
 ---
 
-## 💾 Why State Matters
+## Why State Matters
 
 In simple applications, user interaction is stateless: a query goes in, an answer is generated, and the memory is discarded. 
 
@@ -25,7 +25,7 @@ Production agents require **state consistency** for several reasons:
 
 ---
 
-## 📊 Acyclic (DAGs) vs. Cyclic Graphs
+## Acyclic (DAGs) vs. Cyclic Graphs
 
 Orchestration engines like LangGraph construct agent workflows as mathematical graphs containing **Nodes** (actions/code) and **Edges** (conditional routing logic).
 
@@ -61,7 +61,7 @@ graph TD
 
 ---
 
-## 🛠️ Managing State: Reducers & Actions
+## Managing State: Reducers & Actions
 
 In stateful agent frameworks, the entire state is represented as a single shared data structure (the **State Schema**). 
 
@@ -81,7 +81,7 @@ graph LR
 
 ---
 
-## 🗄️ Persisting State: Database Checkpointers
+## Persisting State: Database Checkpointers
 
 To prevent state loss when servers restart or connections drop, stateful frameworks use **Checkpointers**. A checkpointer automatically serializes the agent state and saves it to a persistent database (e.g., SQLite, PostgreSQL, Redis) after every node execution.
 
@@ -104,7 +104,7 @@ sequenceDiagram
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **State** is required for long-running, multi-turn, and transaction-safe agent workloads.
 - **Cyclic Graphs** enable self-reflection and retries, separating agents from standard linear pipelines (DAGs).
@@ -113,5 +113,5 @@ sequenceDiagram
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 6: Multi-Agent Collaboration Patterns](../06-multi-agent-collaboration/README.md)**, we will scale up from single-agent graphs to multi-agent ecosystems, studying how specialized agents communicate and collaborate to solve complex workloads.

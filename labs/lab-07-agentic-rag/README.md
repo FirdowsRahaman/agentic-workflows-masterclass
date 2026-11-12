@@ -1,10 +1,10 @@
-# Lab 7: Corrective RAG (CRAG) Engine 🔍
+# Lab 7: Corrective RAG (CRAG) Engine 
 
 Welcome to Lab 7! In this lab, we build a **Corrective RAG (CRAG)** agent workflow. You will learn how to move beyond static, passive retrieval by adding evaluation, query reformulation, and fallback tools to make RAG systems resilient and self-correcting.
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 - Define a stateful **RAG State** that tracks search history, query variants, and retrieved document grades.
 - Implement an **In-Memory Vector Store** calculating cosine similarity using real LLM embeddings.
 - Build a **Document Grader** node that evaluates document relevance to prevent hallucinations.
@@ -13,7 +13,7 @@ Welcome to Lab 7! In this lab, we build a **Corrective RAG (CRAG)** agent workfl
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
 ### 1. The Corrective RAG Workflow
 Unlike standard RAG, which directly feeds retrieved documents into the LLM, CRAG adds a verification step to grade retrieved documents:
@@ -40,7 +40,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 ### Run instructions
 Navigate to the lab directory:

@@ -18,7 +18,7 @@ def competitor_web_search(query: str) -> str:
     Returns:
         A text summary of matching competitor facts.
     """
-    print(f"\n🔎 [Tool: competitor_web_search] Searching index for: '{query}'...")
+    print(f"\n [Tool: competitor_web_search] Searching index for: '{query}'...")
     
     # Mock data lookup
     q = query.lower()
@@ -45,7 +45,7 @@ except ImportError:
 # Helper to define the real ADK graph when library is present
 def run_live_adk(topic: str):
     """Executes the collaborative team workflow using the real Google ADK SDK."""
-    print("🔋 [ADK Live] Initializing Google Agent Development Kit runtime...")
+    print("[ADK Live] Initializing Google Agent Development Kit runtime...")
     
     try:
         # Define the specialized research agent
@@ -77,19 +77,19 @@ def run_live_adk(topic: str):
         
         # Execute the workflow using the Runner
         runner = Runner()
-        print("🚀 [ADK Live] Running sequential_writing_team workflow...")
+        print("[ADK Live] Running sequential_writing_team workflow...")
         result = runner.run(
             workflow=writing_workflow,
             input=f"Research topic: {topic}"
         )
         
-        print("\n🎉 [ADK Live Workflow Complete]")
+        print("\n [ADK Live Workflow Complete]")
         print("-" * 70)
         print(result)
         print("-" * 70)
         
     except Exception as e:
-        print(f"❌ Error during live ADK execution: {e}")
+        print(f"Error during live ADK execution: {e}")
         print("Falling back to simulated run...")
         run_simulated_adk(topic)
 
@@ -99,39 +99,39 @@ def run_live_adk(topic: str):
 
 def run_simulated_adk(topic: str):
     """Prints a structured trace showing how ADK handles task execution and delegation."""
-    print("ℹ️ Model API Key or google-adk package missing. Running in Simulated Mode...")
-    print("🔌 [ADK Initialization] Loading agents and tools...")
+    print("ℹ Model API Key or google-adk package missing. Running in Simulated Mode...")
+    print("[ADK Initialization] Loading agents and tools...")
     print("   - Registered Tool: 'competitor_web_search'")
     print("   - Registered Agent: 'researcher_agent' (model: gemini-2.5-flash)")
     print("   - Registered Agent: 'writer_agent' (model: gemini-2.5-flash)")
     print("   - Registered Workflow: 'sequential_writing_team'")
     print("=" * 80)
-    print(f"🚀 [ADK Workflow Start] Executing workflow: 'sequential_writing_team'")
-    print(f"   Input: 'Research topic: {topic}'")
+    print(f"[ADK Workflow Start] Executing workflow: 'sequential_writing_team'")
+    print(f"Input: 'Research topic: {topic}'")
     print("=" * 80)
     
     # Step 1: Researcher agent starts
-    print("\n👉 [ADK Execution] Activating Agent: 'researcher_agent'")
-    print("   Instruction: 'You are an expert research analyst...'")
+    print("\n [ADK Execution] Activating Agent: 'researcher_agent'")
+    print("Instruction: 'You are an expert research analyst...'")
     
     # Tool execution
     search_output = competitor_web_search(topic)
-    print(f"   [Tool Output Received]:\n   {search_output.replace(chr(10), chr(10)+'   ')}")
+    print(f"[Tool Output Received]:\n   {search_output.replace(chr(10), chr(10)+'   ')}")
     
     research_notes = (
         "Here are the competitor research notes:\n"
         "- Competitor A has launched 'AgentBuilder' built on LangGraph, and secured $50M Series A.\n"
         "- Competitor B released 'AutomateX' built on FastMCP protocol with Slack/Discord support."
     )
-    print(f"\n🤖 [Agent Output] 'researcher_agent' completed turn. Output:\n{research_notes}")
+    print(f"\n [Agent Output] 'researcher_agent' completed turn. Output:\n{research_notes}")
     print("-" * 80)
     
     # Step 2: Handoff
-    print("\n👉 [ADK Context Handoff] Transferring context: 'researcher_agent' ──> 'writer_agent'")
+    print("\n [ADK Context Handoff] Transferring context: 'researcher_agent' ──> 'writer_agent'")
     
     # Step 3: Writer agent starts
-    print("\n👉 [ADK Execution] Activating Agent: 'writer_agent'")
-    print("   Instruction: 'You are a professional executive writer...'")
+    print("\n [ADK Execution] Activating Agent: 'writer_agent'")
+    print("Instruction: 'You are a professional executive writer...'")
     
     report = (
         f"# COMPETITOR REPORT: {topic.upper()}\n\n"
@@ -145,9 +145,9 @@ def run_simulated_adk(topic: str):
         f"*   Competitor A secured a $50M Series A round, signaling high investor interest in stateful enterprise platforms."
     )
     
-    print(f"\n🤖 [Agent Output] 'writer_agent' completed turn. Output:\n{report}")
+    print(f"\n [Agent Output] 'writer_agent' completed turn. Output:\n{report}")
     print("-" * 80)
-    print("\n🎉 [ADK Workflow Complete] Status: SUCCESS\n")
+    print("\n [ADK Workflow Complete] Status: SUCCESS\n")
 
 # =====================================================================
 # 4. Main Entry Point

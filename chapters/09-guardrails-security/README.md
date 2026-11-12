@@ -1,10 +1,10 @@
-# Chapter 9: Agent Guardrails & Security 🛡️
+# Chapter 9: Agent Guardrails & Security 
 
 In this chapter, we explore agent security. We will analyze input and output guardrails, study prompt injection mitigation techniques, and implement rate limits and token budgets to prevent run-away loops and contain operational costs.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [Why Agent Security is Different](#why-agent-security-is-different)
 - [Input & Output Guardrail Architectures](#input--output-guardrail-architectures)
 - [Mitigating Prompt Injection & Jailbreaks](#mitigating-prompt-injection--jailbreaks)
@@ -14,7 +14,7 @@ In this chapter, we explore agent security. We will analyze input and output gua
 
 ---
 
-## 🔒 Why Agent Security is Different
+## Why Agent Security is Different
 
 In standard software security, boundaries are defined by strict code parameters. In LLM applications, the core logic is driven by natural language, which is inherently unstructured.
 
@@ -25,7 +25,7 @@ Agents introduce new vulnerability vectors:
 
 ---
 
-## 🧱 Input & Output Guardrail Architectures
+## Input & Output Guardrail Architectures
 
 Guardrails act as a defensive firewall wrapping around the LLM reasoning core:
 
@@ -51,7 +51,7 @@ Executed *after* the LLM generates a response but *before* it is returned to the
 
 ---
 
-## 🛡️ Mitigating Prompt Injection & Jailbreaks
+## Mitigating Prompt Injection & Jailbreaks
 
 Prompt injection occurs when a user or third-party document overrides the system prompt's instructions.
 
@@ -109,7 +109,7 @@ Define a cost threshold per conversation thread. Track token consumption (Input,
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - Agent security must defend against **indirect injection** and **run-away loops**.
 - Use **Input Guardrails** for PII scrubbing and content safety, and **Output Guardrails** for schema verification and policy checks.
@@ -118,5 +118,5 @@ Define a cost threshold per conversation thread. Track token consumption (Input,
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 10: Observability & Tracing](../10-observability-tracing/README.md)**, we will build tracing dashboards to inspect our agent loops, analyze call latency, and debug state variables in real-time.

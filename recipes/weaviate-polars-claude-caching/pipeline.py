@@ -1,5 +1,4 @@
-"""
-Production Enterprise Recipe:
+"""Production Enterprise Recipe:
 Weaviate (Vector Memory) + Polars (High-Throughput ETL) + Claude Context Caching
 ================================================================================
 Target Cloud Regions: AWS eu-central-1 (Frankfurt) / GCP europe-west4 (Netherlands)
@@ -38,8 +37,7 @@ except ImportError:
 # =====================================================================
 
 class PolarsCorpusProcessor:
-    """
-    High-throughput columnar data ingestion and preprocessing using Polars.
+    """High-throughput columnar data ingestion and preprocessing using Polars.
     Leverages Apache Arrow zero-copy memory and Rust SIMD parallelism.
     """
 
@@ -47,8 +45,7 @@ class PolarsCorpusProcessor:
         self.chunk_size_words = chunk_size_words
 
     def process_file(self, file_path: str) -> pl.DataFrame:
-        """
-        Executes a lazy ETL pipeline over CSV/Parquet policy documents.
+        """Executes a lazy ETL pipeline over CSV/Parquet policy documents.
         """
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Source file not found: {file_path}")
@@ -81,8 +78,7 @@ class PolarsCorpusProcessor:
         return processed_df
 
     def format_corpus_for_caching(self, df: pl.DataFrame) -> str:
-        """
-        Formats the preprocessed Polars DataFrame into a structured, high-density
+        """Formats the preprocessed Polars DataFrame into a structured, high-density
         context block designed for Anthropic Claude Prompt Caching (>1024 tokens).
         """
         lines = [
@@ -128,8 +124,7 @@ class RetrievedChunk:
     score: float
 
 class WeaviateVectorMemory:
-    """
-    Production Weaviate v4 integration supporting Hybrid Search (Dense Vectors + BM25).
+    """Production Weaviate v4 integration supporting Hybrid Search (Dense Vectors + BM25).
     Includes an in-process fallback engine if an external Weaviate cluster is unavailable.
     """
 
@@ -164,8 +159,7 @@ class WeaviateVectorMemory:
             self.client = None
 
     def index_dataframe(self, df: pl.DataFrame):
-        """
-        Indexes preprocessed Polars DataFrame into Weaviate collection or fallback memory.
+        """Indexes preprocessed Polars DataFrame into Weaviate collection or fallback memory.
         """
         if self.client:
             # Weaviate v4 Collections API
@@ -208,8 +202,7 @@ class WeaviateVectorMemory:
         self._fallback_store = df.to_dicts()
 
     def hybrid_search(self, query: str, limit: int = 3, alpha: float = 0.5) -> List[RetrievedChunk]:
-        """
-        Performs hybrid vector search (dense semantic similarity + sparse BM25).
+        """Performs hybrid vector search (dense semantic similarity + sparse BM25).
         alpha = 0.0 (Pure BM25 keyword) -> alpha = 1.0 (Pure Vector cosine). Default = 0.5 (Balanced).
         """
         if self.client:
@@ -266,8 +259,7 @@ class WeaviateVectorMemory:
 # =====================================================================
 
 class ClaudeContextCachedAgent:
-    """
-    Enterprise agent orchestrator leveraging Anthropic Claude 3.5 prompt caching.
+    """Enterprise agent orchestrator leveraging Anthropic Claude 3.5 prompt caching.
     Uses 'cache_control: {"type": "ephemeral"}' to cache multi-kilobyte system guidelines
     and preprocessed knowledge corpora in Anthropic KV memory (5-minute rolling TTL).
     """
@@ -288,8 +280,7 @@ class ClaudeContextCachedAgent:
             self.client = None
 
     def query(self, user_question: str, cached_system_corpus: str, retrieved_context: List[RetrievedChunk]) -> Dict[str, Any]:
-        """
-        Executes a prompt-cached inference turn against Anthropic Claude.
+        """Executes a prompt-cached inference turn against Anthropic Claude.
         Tracks cache hits, cache writes, latency, and cost reduction.
         """
         # Formulate retrieved context snippet
@@ -399,8 +390,7 @@ class ClaudeContextCachedAgent:
 # =====================================================================
 
 def run_enterprise_pipeline():
-    """
-    Executes the complete recipe benchmark:
+    """Executes the complete recipe benchmark:
     1. Polars ingest and schema cleaning.
     2. Weaviate indexing and hybrid vector retrieval.
     3. Multi-turn Claude context caching (Turn 1: Cache Miss -> Turn 2: Cache Hit).
@@ -421,13 +411,13 @@ def run_enterprise_pipeline():
     t0 = time.perf_counter()
     df = processor.process_file(data_path)
     polars_time = (time.perf_counter() - t0) * 1000
-    print(f"      Processed {len(df)} records in {polars_time:.2f} ms using Apache Arrow memory.")
-    print(f"      Total token weight: {df['estimated_tokens'].sum()} estimated tokens.")
+    print(f"Processed {len(df)} records in {polars_time:.2f} ms using Apache Arrow memory.")
+    print(f"Total token weight: {df['estimated_tokens'].sum()} estimated tokens.")
 
     # Format high-density corpus for prompt caching (>1024 tokens)
     cached_corpus = processor.format_corpus_for_caching(df)
     corpus_tokens = int(len(cached_corpus.split()) * 1.3)
-    print(f"      Generated sovereign reference context: {corpus_tokens} tokens (Meets >1024 threshold).")
+    print(f"Generated sovereign reference context: {corpus_tokens} tokens (Meets >1024 threshold).")
 
     # Step 2: Weaviate Indexing & Hybrid Search
     print("\n[2/4] Indexing into Weaviate Vector Memory...")
@@ -444,20 +434,20 @@ def run_enterprise_pipeline():
     print("\n[3/4] Executing Turn 1 (Cold Call / Cache Creation)...")
     agent = ClaudeContextCachedAgent()
     turn_1 = agent.query(test_query, cached_corpus, retrieved_chunks)
-    print(f"      Status:       {turn_1['cache_status']}")
-    print(f"      Cache Write:  {turn_1['cache_creation_tokens']} tokens")
-    print(f"      Cache Read:   {turn_1['cache_read_tokens']} tokens")
-    print(f"      Latency:      {turn_1['latency_ms']} ms")
+    print(f"Status:       {turn_1['cache_status']}")
+    print(f"Cache Write:  {turn_1['cache_creation_tokens']} tokens")
+    print(f"Cache Read:   {turn_1['cache_read_tokens']} tokens")
+    print(f"Latency:      {turn_1['latency_ms']} ms")
 
     # Step 4: Claude Context Caching Inference (Turn 2: Cache Hit)
     follow_up_query = "How does GDPR Article 17 right to erasure apply to vector stores and embeddings?"
     print(f"\n[4/4] Executing Turn 2 (Follow-up Turn / Cache Hit Verification)...")
     retrieved_chunks_2 = weaviate_store.hybrid_search(follow_up_query, limit=2)
     turn_2 = agent.query(follow_up_query, cached_corpus, retrieved_chunks_2)
-    print(f"      Status:       {turn_2['cache_status']}")
-    print(f"      Cache Write:  {turn_2['cache_creation_tokens']} tokens")
-    print(f"      Cache Read:   {turn_2['cache_read_tokens']} tokens")
-    print(f"      Latency:      {turn_2['latency_ms']} ms")
+    print(f"Status:       {turn_2['cache_status']}")
+    print(f"Cache Write:  {turn_2['cache_creation_tokens']} tokens")
+    print(f"Cache Read:   {turn_2['cache_read_tokens']} tokens")
+    print(f"Latency:      {turn_2['latency_ms']} ms")
 
     # Economics & Telemetry Report
     base_cost_per_mtok = 3.00       # Claude 3.5 Sonnet regular input per 1M tokens
@@ -488,3 +478,4 @@ def run_enterprise_pipeline():
 
 if __name__ == "__main__":
     run_enterprise_pipeline()
+

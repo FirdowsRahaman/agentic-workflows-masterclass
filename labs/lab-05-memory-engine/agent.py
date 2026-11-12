@@ -32,7 +32,7 @@ SEMANTIC_DATABASE = {
 
 def query_semantic_memory(query: str) -> list[str]:
     """Simulates semantic vector search by keyword matching against facts."""
-    print(f"🔎 [Vector DB] Querying long-term semantic memories for: '{query}'...")
+    print(f"[Vector DB] Querying long-term semantic memories for: '{query}'...")
     results = []
     q = query.lower()
     
@@ -48,7 +48,7 @@ def query_semantic_memory(query: str) -> list[str]:
 
 def save_new_fact(key: str, fact: str):
     """Saves a new fact extracted by the write-behind background job."""
-    print(f"💾 [Vector DB] Saving new semantic fact: {key} -> '{fact}'")
+    print(f"[Vector DB] Saving new semantic fact: {key} -> '{fact}'")
     SEMANTIC_DATABASE[key] = fact
 
 # =====================================================================
@@ -57,7 +57,7 @@ def save_new_fact(key: str, fact: str):
 
 def retrieve_memory_node(state: MemoryState) -> dict:
     """Pre-run node: queries Vector DB to load context relevant to user query."""
-    print("🧠 [Node: retrieve_memory_node] Querying long-term context...")
+    print("[Node: retrieve_memory_node] Querying long-term context...")
     
     # Retrieve the latest human query
     last_user_message = state["messages"][-1]["content"]
@@ -65,7 +65,7 @@ def retrieve_memory_node(state: MemoryState) -> dict:
     # Query vector DB
     memories = query_semantic_memory(last_user_message)
     
-    print(f"   [Context Found] Loaded {len(memories)} relevant long-term facts.")
+    print(f"[Context Found] Loaded {len(memories)} relevant long-term facts.")
     return {"retrieved_memories": memories}
 
 def write_behind_job(state: MemoryState):
@@ -87,7 +87,7 @@ def write_behind_job(state: MemoryState):
 
 def run_memory_agent(thread_id: str, query: str):
     print("=" * 70)
-    print(f"🚀 Running Memory Agent Thread: {thread_id} | Query: '{query}'")
+    print(f"Running Memory Agent Thread: {thread_id} | Query: '{query}'")
     print("=" * 70)
     
     # Initialize State
@@ -108,7 +108,7 @@ You have access to the following long-term facts about the user:
 {memories_str if memories_str else "- No long-term facts found."}
 """
     
-    print(f"\n⚙️ [System Prompt Configured]\n{system_prompt}")
+    print(f"\n [System Prompt Configured]\n{system_prompt}")
     
     # 2. Call LLM (Reasoning Step)
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -128,13 +128,13 @@ You have access to the following long-term facts about the user:
             response_text = f"Error calling model: {str(e)}"
     else:
         # Mock LLM response demonstrating that retrieved memories are utilized
-        print("ℹ️ Running in Mock Mode...")
+        print("ℹ Running in Mock Mode...")
         if state["retrieved_memories"]:
             response_text = f"Hello! Since you are in San Francisco and prefer Python, I recommend using FastAPI for your project."
         else:
             response_text = "Hello! Tell me about where you live or what programming languages you like."
             
-    print(f"🤖 [Assistant Response]\n{response_text}")
+    print(f"[Assistant Response]\n{response_text}")
     
     # Append assistant message to history
     state["messages"].append({"role": "assistant", "content": response_text})
@@ -142,7 +142,7 @@ You have access to the following long-term facts about the user:
     # 3. Trigger write-behind background job to extract facts
     write_behind_job(state)
     
-    print("\n🎉 Memory Pipeline Complete!")
+    print("\n Memory Pipeline Complete!")
     print(f"Current Semantic Database Keys: {list(SEMANTIC_DATABASE.keys())}\n")
     print("=" * 70)
 

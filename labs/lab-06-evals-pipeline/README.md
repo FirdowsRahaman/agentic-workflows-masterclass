@@ -1,10 +1,10 @@
-# Lab 6: Evaluation Pipelines 🧪
+# Lab 6: Evaluation Pipelines 
 
 Welcome to Lab 6! In this lab, we build an automated **Agent Evaluation Pipeline** that grades agent correctness and tool selection against a Ground Truth dataset. You will learn how to combine deterministic assertions with semantic grading driven by an LLM-as-a-Judge.
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 - Design and compile a Ground Truth dataset of test scenarios.
 - Run deterministic assertions to verify correct tool routing.
 - Integrate an **LLM-as-a-Judge** scoring engine to grade semantic content correctness.
@@ -12,12 +12,12 @@ Welcome to Lab 6! In this lab, we build an automated **Agent Evaluation Pipeline
 
 ---
 
-## 📂 Code Files
+## Code Files
 - [**agent.py**](agent.py) — The Python script implementing the test datasets, simulated agent runs, LLM judge connector, and scoring reports.
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
 ### 1. Verification Flow
 ```mermaid
@@ -38,7 +38,7 @@ graph TD
 
 ---
 
-## 🚀 Running the Lab
+## Running the Lab
 
 ### Run instructions
 Navigate to the lab directory:

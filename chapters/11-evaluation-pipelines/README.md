@@ -1,10 +1,10 @@
-# Chapter 11: Evaluation Pipelines 🧪
+# Chapter 11: Evaluation Pipelines 
 
 In this chapter, we explore Agent Evaluation. We will analyze the limitations of software testing for non-deterministic agents, study evaluation methodologies (deterministic assertions, LLM-as-a-judge), and set up an automated testing pipeline to prevent regression failures.
 
 ---
 
-## 📑 Chapter Outline
+## Chapter Outline
 - [Why Agent Testing is Hard](#why-agent-testing-is-hard)
 - [Evaluation Methods: Deterministic vs. LLM-as-a-Judge](#evaluation-methods-deterministic-vs-llm-as-a-judge)
 - [Building Ground Truth Datasets](#building-ground-truth-datasets)
@@ -14,7 +14,7 @@ In this chapter, we explore Agent Evaluation. We will analyze the limitations of
 
 ---
 
-## ⚠️ Why Agent Testing is Hard
+## Why Agent Testing is Hard
 
 Traditional unit testing relies on deterministic matching:
 ```python
@@ -29,7 +29,7 @@ To solve this, we must build **Evaluation Pipelines** that grade agents on safet
 
 ---
 
-## 📊 Evaluation Methods
+## Evaluation Methods
 
 We combine two distinct verification strategies to grade agents:
 
@@ -61,7 +61,7 @@ A frontier LLM is prompted to evaluate the agent's output against a specific rub
 
 ---
 
-## 🗃️ Building Ground Truth Datasets
+## Building Ground Truth Datasets
 
 Evaluations require a curated list of test cases (the **Evaluation Dataset**). Each test case consists of:
 - **Input**: The user query (e.g., *"How much did sales grow in Q2?"*).
@@ -80,7 +80,7 @@ Evaluations require a curated list of test cases (the **Evaluation Dataset**). E
 
 ---
 
-## ⚙️ Implementing Automated Evals Pipelines
+## Implementing Automated Evals Pipelines
 
 An automated evaluation pipeline runs on a schedule (e.g., as a CI/CD GitHub Action) to verify that updates to system prompts or code don't cause regressions.
 
@@ -101,7 +101,7 @@ graph LR
 
 ---
 
-## 📝 Summary & Key Takeaways
+## Summary & Key Takeaways
 
 - **Agent testing** requires combining deterministic assertions with semantic LLM evaluations.
 - Use **Deterministic Assertions** to check tool execution, latency limits, and schema structure.
@@ -110,5 +110,5 @@ graph LR
 
 ---
 
-## 🏁 What's Next?
+## What's Next?
 In **[Chapter 12: Production Deployment & Serving](../12-deployment-serving/README.md)**, we will package our agent graph as a microservice, implement streaming responses, and manage persistent database state.

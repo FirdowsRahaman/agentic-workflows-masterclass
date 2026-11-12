@@ -392,3 +392,4 @@ Outputs:
   KmsKeyArn:
     Description: ARN of Customer-Managed Sovereign KMS Key
     Value: !GetAtt SovereignKMSKey.Arn
+

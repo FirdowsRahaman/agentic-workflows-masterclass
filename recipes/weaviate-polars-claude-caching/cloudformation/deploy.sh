@@ -53,3 +53,4 @@ echo "======================================================================"
 echo "Sovereign cluster active. Connect with Weaviate v4 Python client:"
 echo "export WEAVIATE_URL=\"http://<WeaviatePrivateIp>:8080\""
 echo "======================================================================"
+
